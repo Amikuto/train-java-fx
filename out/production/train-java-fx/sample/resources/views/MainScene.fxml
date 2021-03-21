@@ -3,8 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.controller.MainSceneController">
-   <Button fx:id="mainButton" layoutX="413.0" layoutY="304.0" mnemonicParsing="false" text="Button"/>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.MainSceneController">
+   <Button fx:id="mainButton" layoutX="351.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Вход" />
+   <Button fx:id="registrationButton" layoutX="327.0" layoutY="406.0" mnemonicParsing="false" onAction="#register" prefHeight="25.0" prefWidth="145.0" text="Регистрация" />
 </AnchorPane>
