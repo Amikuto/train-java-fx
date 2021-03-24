@@ -2,18 +2,23 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.controller.LoginPageController;
+import sample.controller.WelcomeSceneController;
+import sample.controller.RegistrationPageController;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 public class Main extends Application {
 
+    private final HashMap<String, String> test = new HashMap<>();
     private Stage primaryStage;
     private BorderPane rootLayout;
 
@@ -30,19 +35,59 @@ public class Main extends Application {
 
         showRootLayout();
 
-        showMainScene();
+        showWelcomeScene();
     }
 
-    public void showMainScene() throws IOException {
+    public void showWelcomeScene() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("../views/MainScene.fxml"));
-        AnchorPane mainScene = loader.load();
+        loader.setLocation(Main.class.getResource("/views/WelcomeScene.fxml"));
+        AnchorPane welcomeScene = loader.load();
 
-        rootLayout.setCenter(mainScene);
+        rootLayout.setCenter(welcomeScene);
 
-//        MainSceneController controller = loader.getController();
-//        controller.setMainApp(this);
+        WelcomeSceneController controller = loader.getController();
+        controller.setMainApp(this);
 //        loader.setController(new RootLayoutController());
+    }
+
+    public void showRegistrationPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/RegistrationPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Регистрация нового пользователя");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        RegistrationPageController controller = loader.getController();
+//        controller.set
+
+
+        dialogStage.showAndWait();
+    }
+
+    public boolean showLoginPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/LoginPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Вход в систему");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        LoginPageController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
+
+        return controller.isOkClicked();
     }
 
     public void showRootLayout() throws IOException {
@@ -61,5 +106,13 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void addToTest(String login, String password) {
+        this.test.put(login, password);
+    }
+
+    public void printTestList() {
+        System.out.println(this.test);
     }
 }
