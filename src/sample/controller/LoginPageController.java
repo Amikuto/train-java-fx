@@ -7,12 +7,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Main;
+import sample.request.GET.User.UserGet;
+
+import java.io.IOException;
 
 public class LoginPageController {
 
     private Main mainApp;
     private Stage dialogStage;
-    private boolean okClicked = false;
+    private boolean CHECKED = false;
 
     @FXML
     public TextField loginField;
@@ -40,23 +43,36 @@ public class LoginPageController {
         this.dialogStage = dialogStage;
     }
 
-    public boolean isOkClicked(){
-        return okClicked;
+    public boolean isCHECKED(){
+        return CHECKED;
     }
 
     @FXML
-    private void handleOk() {
+    private boolean handleOk() throws IOException {
         if (isInputValid()) {
             String login = loginField.getText();
-            String password = passwordField.getText();
+            Integer password = Integer.parseInt(passwordField.getText());
 
-            mainApp.addToTest(login, password);
+//            mainApp.addToTest(login, password);
 
-            mainApp.printTestList();
+//            mainApp.printTestList();
 
-            okClicked = true;
-            dialogStage.close();
+            if (UserGet.checkPassword(login, password)){
+                CHECKED = true;
+                dialogStage.close();
+                return true;
+            } else {
+                String errorMessage = "";
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.initOwner(dialogStage);
+                alert.setTitle("Ошибка при вводе данных");
+                alert.setHeaderText("Пожалуйста, введите корректный пароль");
+                alert.setContentText(errorMessage);
+
+                alert.showAndWait();
+            }
         }
+        return false;
     }
 
     @FXML

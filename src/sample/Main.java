@@ -36,6 +36,10 @@ public class Main extends Application {
         showRootLayout();
 
         showWelcomeScene();
+
+        if (this.showLoginPage()){
+            System.out.println(123);
+        }
     }
 
     public void showWelcomeScene() throws IOException {
@@ -87,7 +91,7 @@ public class Main extends Application {
 
         dialogStage.showAndWait();
 
-        return controller.isOkClicked();
+        return controller.isCHECKED();
     }
 
     public void showRootLayout() throws IOException {
