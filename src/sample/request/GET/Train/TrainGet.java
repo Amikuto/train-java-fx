@@ -30,4 +30,15 @@ public class TrainGet {
 
         return rd.readLine();
     }
+
+    public static String TrainsGetByDepAndArrStation(Integer depStationId, Integer arrStationId) throws IOException {
+        String url = "http://localhost:8080/trains/" + depStationId + "/" + arrStationId + "/stations";
+        HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
+        httpClient.setRequestMethod("GET");
+
+        InputStream is = httpClient.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        return rd.readLine();
+    }
 }

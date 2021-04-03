@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,9 +13,14 @@ import javafx.stage.Stage;
 import sample.controller.LoginPageController;
 import sample.controller.WelcomeSceneController;
 import sample.controller.RegistrationPageController;
+import sample.model.Station;
+import sample.model.Train;
+import sample.request.GET.Station.StationGet;
+import sample.request.GET.Station.StationParser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -21,6 +28,9 @@ public class Main extends Application {
     private final HashMap<String, String> test = new HashMap<>();
     private Stage primaryStage;
     private BorderPane rootLayout;
+
+    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
+    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -35,11 +45,10 @@ public class Main extends Application {
 
         showRootLayout();
 
-        showWelcomeScene();
+//        if (this.showLoginPage()){
 
-        if (this.showLoginPage()){
-            System.out.println(123);
-        }
+        showWelcomeScene();
+//        }
     }
 
     public void showWelcomeScene() throws IOException {
@@ -108,8 +117,18 @@ public class Main extends Application {
         return primaryStage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public Main() throws IOException {
+//        stationParser.addStationsAndIds(stationGet.StationGetAll())
+        StationParser stationParser = new StationParser();
+        StationGet stationGet = new StationGet();
+        ArrayList<Station> test = stationParser.addStationsAndIds(stationGet.StationGetAll());
+        stationsData.addAll(test);
+//        System.out.println(test);
+//        stationsData.addAll(stationParser.addStationsAndIds(stationGet.StationGetAll()));
+    }
+
+    public ObservableList<Station> getStationsData() {
+        return stationsData;
     }
 
     public void addToTest(String login, String password) {
@@ -118,5 +137,9 @@ public class Main extends Application {
 
     public void printTestList() {
         System.out.println(this.test);
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
