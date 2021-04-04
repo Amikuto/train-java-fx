@@ -12,7 +12,7 @@ public class StationGet {
     public StationGet() throws IOException {
     }
 
-    public String StationGetAllCities() throws IOException {
+    public String stationGetAllCities() throws IOException {
         String url = "http://localhost:8080/stations/city";
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
         httpClient.setRequestMethod("GET");
@@ -23,7 +23,7 @@ public class StationGet {
         return rd.readLine();
     }
 
-    public String StationGetAll() throws IOException {
+    public String stationGetAll() throws IOException {
         String url = "http://localhost:8080/stations";
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
         httpClient.setRequestMethod("GET");

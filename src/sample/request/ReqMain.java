@@ -14,14 +14,13 @@ public class ReqMain {
         StationGet stationGet = new StationGet();
         StationParser stationParser = new StationParser();
 
-        System.out.println(stationParser.addStationsAndIds(stationGet.StationGetAll()));
+//        System.out.println(stationParser.getAllStationsAndIds(stationGet.stationGetAll()));
 
 //        System.out.println(stationGet.StationGetAll());
 //
 //        System.out.println(stationGet.StationGetAllCities());
-//
-//        System.out.println(TrainGet.TrainsGetById(1L));
 
+//        System.out.println(TrainGet.trainGetAll());
 //        UserGet userGet = new UserGet();
 
 //        if (userGet.checkPassword("ami", 123)){
@@ -29,7 +28,13 @@ public class ReqMain {
 //        }
 
         TrainParser trainParser = new TrainParser();
+//
+        System.out.println(trainParser.getAllTrains());
 
-//        trainParser.parse(TrainGet.TrainsGetByDepAndArrStation(2, 1));
+        System.out.println(trainParser.getTrainById(12L));
+
+//        System.out.println(trainParser.getListOfTrains(2, 1));
+
+        System.out.println(trainParser.getListOfTrains(2, 1, "2021-03-18"));
     }
 }

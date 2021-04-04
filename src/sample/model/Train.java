@@ -1,35 +1,79 @@
 package sample.model;
 
 import javafx.beans.property.*;
-import javafx.collections.ObservableList;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Data
 public class Train {
 
-    private final LongProperty id;
+    private final StringProperty id;
+
+    private final StringProperty depSt;
+    private final StringProperty arrSt;
+
     private final ObjectProperty<LocalTime> timeDep;
     private final ObjectProperty<LocalTime> timeArr;
 
     private final ObjectProperty<LocalDate> dateDep;
     private final ObjectProperty<LocalDate> dateArr;
 
-    private final LongProperty depSt;
-    private final LongProperty arrSt;
+//    private final StringProperty depSt;
+//    private final StringProperty arrSt;
+//
+//    private final ListProperty<Car> cars;
+//    private final ListProperty<Ticket> tickets;
 
-    private final ListProperty<Car> cars;
-    private final ListProperty<Ticket> tickets;
+//    public Train(String id, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr, String depSt, String arrSt, ObservableList<Car> cars, ObservableList<Ticket> tickets) {
+//        this.id = new SimpleStringProperty(id);
+//        this.timeDep = new SimpleObjectProperty<>(timeDep);
+//        this.timeArr = new SimpleObjectProperty<>(timeArr);
+//        this.dateDep = new SimpleObjectProperty<>(dateDep);
+//        this.dateArr = new SimpleObjectProperty<>(dateArr);
+////        this.depSt = new SimpleStringProperty(depSt);
+////        this.arrSt =  new SimpleStringProperty(arrSt);
+////        this.cars = new SimpleListProperty<>(cars);
+////        this.tickets = new SimpleListProperty<>(tickets);
+//    }
 
-    public long getId() {
+//    public Train(String id, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr, StringProperty depSt, StringProperty arrSt) {
+//        this.id = new SimpleStringProperty(id);
+//        this.timeDep = new SimpleObjectProperty<>(timeDep);
+//        this.timeArr = new SimpleObjectProperty<>(timeArr);
+//        this.dateDep = new SimpleObjectProperty<>(dateDep);
+//        this.dateArr = new SimpleObjectProperty<>(dateArr);
+//    }
+
+    public Train(String id, String depSt, String arrSt, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr) {
+        this.id = new SimpleStringProperty(id);
+        this.timeDep = new SimpleObjectProperty<>(timeDep);
+        this.timeArr = new SimpleObjectProperty<>(timeArr);
+        this.depSt = new SimpleStringProperty(depSt);
+        this.arrSt = new SimpleStringProperty(arrSt);
+        this.dateDep = new SimpleObjectProperty<>(dateDep);
+        this.dateArr = new SimpleObjectProperty<>(dateArr);
+    }
+
+//        public Train() {
+//        this(null, null);
+//    }
+//
+//    public Train(Long id, ObjectProperty<LocalTime> time_dep) {
+//        this.id = new SimpleLongProperty(id);
+//    }
+
+
+    public String getId() {
         return id.get();
     }
 
-    public LongProperty idProperty() {
+    public StringProperty idProperty() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id.set(id);
     }
 
@@ -81,75 +125,28 @@ public class Train {
         this.dateArr.set(dateArr);
     }
 
-    public long getArrSt() {
-        return arrSt.get();
-    }
-
-    public LongProperty arrStProperty() {
-        return arrSt;
-    }
-
-    public void setArrSt(long arrSt) {
-        this.arrSt.set(arrSt);
-    }
-
-    public long getDepSt() {
+    public String getDepSt() {
         return depSt.get();
     }
 
-    public LongProperty depStProperty() {
+    public StringProperty depStProperty() {
         return depSt;
     }
 
-    public void setDepSt(long depSt) {
+    public void setDepSt(String depSt) {
         this.depSt.set(depSt);
     }
 
-    public ObservableList<Car> getCars() {
-        return cars.get();
+    public String getArrSt() {
+        return arrSt.get();
     }
 
-    public ListProperty<Car> carsProperty() {
-        return cars;
+    public StringProperty arrStProperty() {
+        return arrSt;
     }
 
-    public void setCars(ObservableList<Car> cars) {
-        this.cars.set(cars);
-    }
-
-    public ObservableList<Ticket> getTickets() {
-        return tickets.get();
-    }
-
-    public ListProperty<Ticket> ticketsProperty() {
-        return tickets;
-    }
-
-    public void setTickets(ObservableList<Ticket> tickets) {
-        this.tickets.set(tickets);
-    }
-
-//    public Train() {
-//        this(null, null);
-//    }
-//
-//    public Train(Long id, ObjectProperty<LocalTime> time_dep) {
-//        this.id = new SimpleLongProperty(id);
-//    }
-
-    public Train(LongProperty id, ObjectProperty<LocalTime> timeDep, ObjectProperty<LocalTime> timeArr, ObjectProperty<LocalDate> dateDep, ObjectProperty<LocalDate> dateArr, LongProperty depSt, LongProperty arrSt, ListProperty<Car> cars, ListProperty<Ticket> tickets){
-        this.id = id;
-        this.timeDep = timeDep;
-        this.timeArr = timeArr;
-
-        this.dateDep = dateDep;
-        this.dateArr = dateArr;
-
-        this.depSt = depSt;
-        this.arrSt = arrSt;
-
-        this.cars = cars;
-        this.tickets = tickets;
+    public void setArrSt(String arrSt) {
+        this.arrSt.set(arrSt);
     }
 
     @Override
@@ -160,10 +157,6 @@ public class Train {
                 ", timeArr=" + timeArr +
                 ", dateDep=" + dateDep +
                 ", dateArr=" + dateArr +
-                ", depSt=" + depSt +
-                ", arrSt=" + arrSt +
-                ", cars=" + cars +
-                ", tickets=" + tickets +
                 '}';
     }
 }

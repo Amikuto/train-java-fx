@@ -11,16 +11,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controller.LoginPageController;
-import sample.controller.WelcomeSceneController;
+import sample.controller.StationsAndTrainsSceneController;
 import sample.controller.RegistrationPageController;
 import sample.model.Station;
 import sample.model.Train;
-import sample.request.GET.Station.StationGet;
-import sample.request.GET.Station.StationParser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -37,6 +34,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Train application!");
         this.primaryStage.setMaximized(true);
+        this.primaryStage.setResizable(false);
 
         // Set logo on the top left
         InputStream iconStream = getClass().getResourceAsStream("/static/TLogo.jpeg");
@@ -53,12 +51,12 @@ public class Main extends Application {
 
     public void showWelcomeScene() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("/views/WelcomeScene.fxml"));
+        loader.setLocation(Main.class.getResource("/views/StationsAndTrainsScene.fxml"));
         AnchorPane welcomeScene = loader.load();
 
         rootLayout.setCenter(welcomeScene);
 
-        WelcomeSceneController controller = loader.getController();
+        StationsAndTrainsSceneController controller = loader.getController();
         controller.setMainApp(this);
 //        loader.setController(new RootLayoutController());
     }
@@ -117,14 +115,7 @@ public class Main extends Application {
         return primaryStage;
     }
 
-    public Main() throws IOException {
-//        stationParser.addStationsAndIds(stationGet.StationGetAll())
-        StationParser stationParser = new StationParser();
-        StationGet stationGet = new StationGet();
-        ArrayList<Station> test = stationParser.addStationsAndIds(stationGet.StationGetAll());
-        stationsData.addAll(test);
-//        System.out.println(test);
-//        stationsData.addAll(stationParser.addStationsAndIds(stationGet.StationGetAll()));
+    public Main(){
     }
 
     public ObservableList<Station> getStationsData() {

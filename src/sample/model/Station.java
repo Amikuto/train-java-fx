@@ -16,7 +16,7 @@ public class Station {
         this.stationName = new SimpleStringProperty(stationName);
     }
 
-    public String  getId() {
+    public String getId() {
         return id.get();
     }
 
