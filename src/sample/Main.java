@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controller.LoginPageController;
+import sample.controller.StationEditController;
 import sample.controller.StationsAndTrainsSceneController;
 import sample.controller.RegistrationPageController;
 import sample.model.Station;
@@ -78,6 +79,28 @@ public class Main extends Application {
 
 
         dialogStage.showAndWait();
+    }
+
+    public boolean showStationEditDialog(Station station) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/EditStationPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование станций");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        StationEditController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setStation(station);
+
+        dialogStage.showAndWait();
+
+        return controller.isOkClicked();
     }
 
     public boolean showLoginPage() throws IOException {

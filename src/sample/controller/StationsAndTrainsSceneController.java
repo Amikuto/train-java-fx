@@ -5,11 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import sample.Main;
 import sample.model.Station;
 import sample.model.Train;
-import sample.request.GET.Station.StationGet;
-import sample.request.GET.Station.StationParser;
+import sample.request.GET.Station.*;
 import sample.request.GET.Train.TrainParser;
 
 import java.io.IOException;
@@ -37,6 +37,8 @@ public class StationsAndTrainsSceneController {
     @FXML
     public Button editButton;
     @FXML
+    public Button deleteButton;
+    @FXML
     public TableView<Train> trainTableView;
     @FXML
     public TableColumn<Train, String> trainIdColumn;
@@ -62,12 +64,20 @@ public class StationsAndTrainsSceneController {
     public void setMainApp(Main mainApp) throws IOException {
         this.mainApp = mainApp;
 
+        showStationsData();
+    }
+
+    private void showStationsData() throws IOException {
+//        stationsData.removeAll();
+        stationsData.clear();
+
         StationParser stationParser = new StationParser();
         StationGet stationGet = new StationGet();
 
         stationsData.addAll(stationParser.getAllStationsAndIds(stationGet.stationGetAll()));
 
         stationTableView.setItems(stationsData);
+
     }
 
     @FXML
@@ -83,10 +93,55 @@ public class StationsAndTrainsSceneController {
 //        );
     }
 
-    public void addNewStation(ActionEvent actionEvent) {
+    public void addNewStation() throws IOException {
+        Station station = new Station();
+        boolean okClicked = mainApp.showStationEditDialog(station);
+        if (okClicked) {
+            StationPost.addNewStation(station.getStationName(), station.getCityName());
+            showStationsData();
+        }
+
     }
 
-    public void editStation(ActionEvent actionEvent) {
+    public void editStation() throws IOException {
+        Station selectedStation = stationTableView.getSelectionModel().getSelectedItem();
+        if (selectedStation != null) {
+            boolean okClicked = mainApp.showStationEditDialog(selectedStation);
+            if (okClicked) {
+                StationPut.editStation(selectedStation.getId(), selectedStation.getStationName(), selectedStation.getCityName());
+                showStationsData();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(mainApp.getPrimaryStage());
+                alert.setContentText("Пожалуйста, выберите станцию для редактирования!");
+                alert.setTitle("No selection");
+                alert.setHeaderText("No station selected");
+
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public void deleteStation() throws IOException {
+        Station selectedStation = stationTableView.getSelectionModel().getSelectedItem();
+        if (selectedStation.getId().length() != 0) {
+            String id = selectedStation.getId();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Удалена станция под номером " + StationDelete.deleteStation(id).toString());
+
+            alert.showAndWait();
+            showStationsData();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Ошибка!");
+            alert.setHeaderText("Ошибка удаления");
+            alert.setContentText("Выберите станцию для удаления!!!");
+
+            alert.showAndWait();
+        }
     }
 
     public void addNewTrain(ActionEvent actionEvent) {
@@ -95,13 +150,14 @@ public class StationsAndTrainsSceneController {
     public void editTrain(ActionEvent actionEvent) {
     }
 
+    public void deleteTrain(ActionEvent actionEvent) {
+    }
+
     public void searchTrains() throws IOException {
         ObservableList<Train> trainsData = FXCollections.observableArrayList();
 
         int departCity = 0;
         int arriveCity = 0;
-
-        System.out.println(stationsData);
 
         for (Station station : stationsData) {
             if (trainCityDepNumberField.getText().equals(station.getStationName())){
@@ -111,8 +167,9 @@ public class StationsAndTrainsSceneController {
             }
         }
 
-//        String date = trainDateField.getValue().toString();
-        String date = "2021-03-18"; // TODO: remove
+        String date = trainDateField.getValue().toString();
+//        String date = "2021-03-18"; // TODO: remove
+        System.out.println(date);
 
         trainsData.addAll(trainParser.getListOfTrains(departCity, arriveCity, date));
         for (Train train : trainsData) {

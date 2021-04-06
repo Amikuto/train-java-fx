@@ -1,9 +1,6 @@
 package sample.request;
 
-import sample.request.GET.Station.StationGet;
-import sample.request.GET.Station.StationParser;
-import sample.request.GET.Train.TrainGet;
-import sample.request.GET.Train.TrainParser;
+import sample.request.GET.Station.*;
 
 import java.io.IOException;
 
@@ -27,14 +24,13 @@ public class ReqMain {
 //            System.out.println(true);
 //        }
 
-        TrainParser trainParser = new TrainParser();
-//
-        System.out.println(trainParser.getAllTrains());
-
-        System.out.println(trainParser.getTrainById(12L));
-
+//        TrainParser trainParser = new TrainParser();
+//        System.out.println(trainParser.getAllTrains());
+//        System.out.println(trainParser.getTrainById(12L));
 //        System.out.println(trainParser.getListOfTrains(2, 1));
-
-        System.out.println(trainParser.getListOfTrains(2, 1, "2021-03-18"));
+//        System.out.println(trainParser.getListOfTrains(2, 1, "2021-03-18"));
+//        StationPost.addNewStation("Test", "TestCity");
+//        System.out.println(StationDelete.deleteStation(113));
+        StationPut.editStation("10", "Test", "TestCity");
     }
 }
