@@ -2,6 +2,7 @@ package sample.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Station;
@@ -18,6 +19,8 @@ public class StationEditController {
 
     public TextField stationCityField;
     public TextField stationNameField;
+    public Button cancelButton;
+    public Button okButton;
 
     @FXML
     private void initialize(){}

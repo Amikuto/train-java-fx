@@ -1,8 +1,14 @@
 package sample.request;
 
+import sample.model.Train;
 import sample.request.GET.Station.*;
+import sample.request.GET.Train.TrainDelete;
+import sample.request.GET.Train.TrainPost;
+import sample.request.GET.Train.TrainPut;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ReqMain {
 
@@ -31,6 +37,9 @@ public class ReqMain {
 //        System.out.println(trainParser.getListOfTrains(2, 1, "2021-03-18"));
 //        StationPost.addNewStation("Test", "TestCity");
 //        System.out.println(StationDelete.deleteStation(113));
-        StationPut.editStation("10", "Test", "TestCity");
+//        StationPut.editStation("3", "Test", "TestCity");
+//        TrainPost.addNewTrain(LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("09:00:00"), LocalTime.parse("16:00:00"), "1", "2");
+//        TrainDelete.deleteTrain("312");
+        TrainPut.editTrain("316", LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("01:00:00"), LocalTime.parse("10:00:00"), "1", "2");
     }
 }

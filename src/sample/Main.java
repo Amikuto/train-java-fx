@@ -10,10 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.controller.LoginPageController;
-import sample.controller.StationEditController;
-import sample.controller.StationsAndTrainsSceneController;
-import sample.controller.RegistrationPageController;
+import sample.controller.*;
 import sample.model.Station;
 import sample.model.Train;
 
@@ -97,6 +94,29 @@ public class Main extends Application {
         StationEditController controller = loader.getController();
         controller.setDialogStage(dialogStage);
         controller.setStation(station);
+
+        dialogStage.showAndWait();
+
+        return controller.isOkClicked();
+    }
+
+    public boolean showTrainEditDialog(Train train) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/EditTrainPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование поездов");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        TrainEditController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.setDialogStage(dialogStage);
+        controller.setTrain(train);
 
         dialogStage.showAndWait();
 

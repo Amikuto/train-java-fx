@@ -56,6 +56,10 @@ public class Train {
         this.dateArr = new SimpleObjectProperty<>(dateArr);
     }
 
+    public Train(){
+        this(null, null, null, null, null, null, null);
+    }
+
 //        public Train() {
 //        this(null, null);
 //    }
