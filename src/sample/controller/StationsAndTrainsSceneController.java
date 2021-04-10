@@ -26,9 +26,6 @@ public class StationsAndTrainsSceneController {
 //    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
     private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
     private ObservableList<Station> stationsData;
-    public TextField trainCityDepNumberField;
-    public TextField trainCityArrNumberField;
-    public DatePicker trainDateField;
     TrainParser trainParser = new TrainParser();
     Integer departCity = 0;
     Integer arriveCity = 0;
@@ -69,6 +66,10 @@ public class StationsAndTrainsSceneController {
     public Button editButton1;
     @FXML
     public Button trainSearchButton;
+    public TextField trainCityDepNumberField;
+    public TextField trainCityArrNumberField;
+    public DatePicker trainDateField;
+    public Button carsEditButton;
 
     private Main mainApp;
 
@@ -105,17 +106,18 @@ public class StationsAndTrainsSceneController {
     private void showTrainsData() throws IOException {
         trainsData.clear();
 
-        for (Station station : stationsData) {
-            if (trainCityDepNumberField.getText().equals(station.getStationName())){
-                this.departCity = Integer.parseInt(station.getId());
-            } else if (trainCityArrNumberField.getText().equals(station.getStationName())){
-                this.arriveCity = Integer.parseInt(station.getId());
-            }
-        }
+//        for (Station station : stationsData) {
+//            if (trainCityDepNumberField.getText().equals(station.getStationName())){
+//                this.departCity = Integer.parseInt(station.getId());
+//            } else if (trainCityArrNumberField.getText().equals(station.getStationName())){
+//                this.arriveCity = Integer.parseInt(station.getId());
+//            }
+//        }
 
-        String date = trainDateField.getValue().toString();
-//        String date = "2021-03-18"; // TODO: remove
-
+//        String date = trainDateField.getValue().toString();
+        String date = "2021-03-18"; // TODO: remove
+        this.departCity = 2;
+        this.arriveCity = 1;
 
         trainsData.addAll(trainParser.getListOfTrains(departCity, arriveCity, date));
         for (Train train : trainsData) {
@@ -274,5 +276,21 @@ public class StationsAndTrainsSceneController {
         trainTimeArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().timeArrProperty());
         trainDateDepColumn.setCellValueFactory(cellData -> cellData.getValue().dateDepProperty());
         trainDateArrColumn.setCellValueFactory(cellData -> cellData.getValue().dateArrProperty());
+    }
+
+    public void showCarsAndSeatsScene() throws IOException {
+        Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
+        if (selectedTrain != null) {
+            mainApp.showCarsAndSeatsScene(selectedTrain);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setContentText("Пожалуйста, выберите поезд для редактирования!");
+            alert.setTitle("No selection");
+            alert.setHeaderText("No train selected");
+
+            alert.showAndWait();
+        }
+//        mainApp.showCarsAndSeatsScene();
     }
 }

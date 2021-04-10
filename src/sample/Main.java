@@ -56,7 +56,28 @@ public class Main extends Application {
 
         StationsAndTrainsSceneController controller = loader.getController();
         controller.setMainApp(this);
-//        loader.setController(new RootLayoutController());
+        loader.setController(new RootLayoutController());
+    }
+
+    public void showCarsAndSeatsScene(Train train) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/CarsAndSeatsScene.fxml"));
+        AnchorPane carsAndSeatsScene = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование поездов");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(carsAndSeatsScene);
+        dialogStage.setScene(scene);
+
+        CarsAndSeatsSceneController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setTrain(train);
+        controller.setMainApp(this);
+        loader.setController(new RootLayoutController());
+        controller.setData();
+        dialogStage.showAndWait();
     }
 
     public void showRegistrationPage() throws IOException {

@@ -1,6 +1,7 @@
 package sample.request;
 
 import sample.model.Train;
+import sample.request.GET.Car.CarParser;
 import sample.request.GET.Station.*;
 import sample.request.GET.Train.TrainDelete;
 import sample.request.GET.Train.TrainPost;
@@ -40,6 +41,8 @@ public class ReqMain {
 //        StationPut.editStation("3", "Test", "TestCity");
 //        TrainPost.addNewTrain(LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("09:00:00"), LocalTime.parse("16:00:00"), "1", "2");
 //        TrainDelete.deleteTrain("312");
-        TrainPut.editTrain("316", LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("01:00:00"), LocalTime.parse("10:00:00"), "1", "2");
+//        TrainPut.editTrain("316", LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("01:00:00"), LocalTime.parse("10:00:00"), "1", "2");
+        CarParser carParser = new CarParser();
+        System.out.println(carParser.getListOfCars(12L));
     }
 }

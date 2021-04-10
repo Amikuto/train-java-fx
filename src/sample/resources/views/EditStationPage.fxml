@@ -38,7 +38,7 @@
             </Label>
          </children>
       </GridPane>
-      <ButtonBar layoutX="460.0" layoutY="360.0">
+      <ButtonBar layoutX="406.0" layoutY="356.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <buttons>
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Отмена">
                <font>
