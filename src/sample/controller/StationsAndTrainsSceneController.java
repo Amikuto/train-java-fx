@@ -16,6 +16,8 @@ import sample.request.GET.Train.TrainPost;
 import sample.request.GET.Train.TrainPut;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -58,6 +60,10 @@ public class StationsAndTrainsSceneController {
     @FXML
     public TableColumn<Train, LocalTime> trainTimeArrivingColumn;
     @FXML
+    public TableColumn<Train, LocalDate> trainDateDepColumn;
+    @FXML
+    public TableColumn<Train, LocalDate> trainDateArrColumn;
+    @FXML
     public Button addTrainButton;
     @FXML
     public Button editButton1;
@@ -81,7 +87,16 @@ public class StationsAndTrainsSceneController {
         StationParser stationParser = new StationParser();
         StationGet stationGet = new StationGet();
 
-        stationsData.addAll(stationParser.getAllStationsAndIds(stationGet.stationGetAll()));
+        try {
+            stationsData.addAll(stationParser.getAllStationsAndIds(stationGet.stationGetAll()));
+        } catch (ConnectException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Нет соединения с сервером");
+
+            alert.showAndWait();
+        }
 
         stationTableView.setItems(stationsData);
 
@@ -257,6 +272,7 @@ public class StationsAndTrainsSceneController {
         trainCityArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().arrStProperty());
         trainTimeDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().timeDepProperty());
         trainTimeArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().timeArrProperty());
-
+        trainDateDepColumn.setCellValueFactory(cellData -> cellData.getValue().dateDepProperty());
+        trainDateArrColumn.setCellValueFactory(cellData -> cellData.getValue().dateArrProperty());
     }
 }

@@ -115,6 +115,7 @@ public class Main extends Application {
 
         TrainEditController controller = loader.getController();
         controller.setMainApp(this);
+        controller.setStationsData();
         controller.setDialogStage(dialogStage);
         controller.setTrain(train);
 

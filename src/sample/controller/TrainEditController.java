@@ -8,9 +8,10 @@ import sample.Main;
 import sample.model.Station;
 import sample.model.Train;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class TrainEditController {
 
@@ -31,7 +32,15 @@ public class TrainEditController {
 
     public void setMainApp(Main mainApp){
         this.mainApp = mainApp;
-        stationsData = mainApp.getStationsData();
+//        stationsData = mainApp.getStationsData().sorted();
+//        trainDepStation.setItems(stationsData);
+//        trainArrStation.setItems(stationsData);
+    }
+
+    public void setStationsData(){
+        stationsData = mainApp.getStationsData().sorted();
+//        Stream<String> stationsData1 = stationsData.sorted().stream().map(Station::getStationName);
+//        System.out.println(Arrays.toString(stationsData1.toArray()));
         trainDepStation.setItems(stationsData);
         trainArrStation.setItems(stationsData);
     }

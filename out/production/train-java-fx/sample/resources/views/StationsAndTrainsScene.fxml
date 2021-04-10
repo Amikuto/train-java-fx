@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="900.0" maxWidth="1200.0" minHeight="900.0" minWidth="1200.0" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StationsAndTrainsSceneController">
+<AnchorPane maxHeight="900.0" maxWidth="1200.0" minHeight="900.0" minWidth="1200.0" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StationsAndTrainsSceneController">
    <children>
       <TabPane layoutX="80.0" layoutY="161.0" prefHeight="800.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -45,7 +55,7 @@
                      <children>
                         <SplitPane dividerPositions="0.1482444733420026" layoutX="237.0" layoutY="177.0" orientation="VERTICAL" prefHeight="771.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
                                  <children>
                                     <DatePicker fx:id="trainDateField" layoutX="221.0" layoutY="18.0" />
                                     <TextField fx:id="trainCityDepNumberField" layoutX="700.0" layoutY="18.0" prefHeight="25.0" prefWidth="177.0" />
@@ -72,11 +82,13 @@
                                  <children>
                                     <TableView fx:id="trainTableView" layoutX="59.0" layoutY="71.0" prefHeight="658.0" prefWidth="1198.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn fx:id="trainIdColumn" prefWidth="95.0" text="Номер поезда" />
-                                        <TableColumn fx:id="trainCityDepartingColumn" prefWidth="304.0" text="Город отправления" />
-                                          <TableColumn fx:id="trainCityArrivingColumn" prefWidth="237.0" text="Город прибытия" />
-                                          <TableColumn fx:id="trainTimeDepartingColumn" prefWidth="300.0" text="Время отправления" />
-                                          <TableColumn fx:id="trainTimeArrivingColumn" prefWidth="262.0" text="Время прибытия" />
+                                        <TableColumn fx:id="trainIdColumn" prefWidth="95.0" resizable="false" text="Номер поезда" />
+                                        <TableColumn fx:id="trainCityDepartingColumn" prefWidth="148.0" resizable="false" text="Город отправления" />
+                                          <TableColumn fx:id="trainCityArrivingColumn" prefWidth="147.0" resizable="false" text="Город прибытия" />
+                                          <TableColumn fx:id="trainTimeDepartingColumn" prefWidth="209.0" resizable="false" text="Время отправления" />
+                                          <TableColumn fx:id="trainTimeArrivingColumn" prefWidth="194.0" resizable="false" text="Время прибытия" />
+                                          <TableColumn fx:id="trainDateDepColumn" prefWidth="197.0" resizable="false" text="Дата отправления" />
+                                          <TableColumn fx:id="trainDateArrColumn" prefWidth="207.0" resizable="false" text="Дата прибытия" />
                                       </columns>
                                     </TableView>
                                     <ButtonBar layoutX="799.0" layoutY="692.0">
@@ -86,6 +98,7 @@
                                           <Button mnemonicParsing="false" onAction="#deleteTrain" text="Удалить" />
                                        </buttons>
                                     </ButtonBar>
+                                    <Button layoutX="677.0" layoutY="692.0" mnemonicParsing="false" text="Настройка вагонов" />
                                  </children>
                               </AnchorPane>
                           </items>
