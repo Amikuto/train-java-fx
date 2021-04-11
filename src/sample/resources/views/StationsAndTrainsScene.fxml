@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="900.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StationsAndTrainsSceneController">
+   <children>
+      <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Станции">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.0364" layoutX="-59.0" layoutY="11.0" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                              <ComboBox prefWidth="150.0" visible="false" />
+                            <AnchorPane>
+                                 <children>
+                                    <TableView fx:id="stationTableView" layoutY="-180.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="idColumn" prefWidth="196.99998474121094" resizable="false" text="Номер странции" />
+                                        <TableColumn fx:id="cityNameColumn" prefWidth="392.33331298828125" resizable="false" text="Город" />
+                                          <TableColumn fx:id="stationNameColumn" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="1000.0" resizable="false" text="Название" />
+                                      </columns>
+                                    </TableView>
+                                    <ButtonBar layoutX="800.0" layoutY="790.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="37.0">
+                                       <buttons>
+                                          <Button fx:id="addButton" mnemonicParsing="false" onAction="#addNewStation" prefWidth="107.0" text="Добавить" />
+                                          <Button fx:id="editButton" mnemonicParsing="false" onAction="#editStation" text="Редактировать" />
+                                          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteStation" text="Удалить" />
+                                       </buttons>
+                                    </ButtonBar>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Поезда">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.1482444733420026" layoutX="237.0" layoutY="177.0" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
+                                 <children>
+                                    <DatePicker fx:id="trainDateField" layoutX="221.0" layoutY="18.0" AnchorPane.leftAnchor="221.0" />
+                                    <TextField fx:id="trainCityDepNumberField" layoutX="700.0" layoutY="18.0" prefHeight="25.0" prefWidth="177.0" AnchorPane.leftAnchor="700.0" />
+                                    <TextField fx:id="trainCityArrNumberField" layoutX="700.0" layoutY="69.0" prefHeight="25.0" prefWidth="179.0" AnchorPane.leftAnchor="700.0" />
+                                    <Label layoutX="14.0" layoutY="18.0" text="Введите дату отправления" AnchorPane.leftAnchor="14.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="537.0" layoutY="21.0" text="Город отправления" AnchorPane.leftAnchor="537.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="538.0" layoutY="72.0" text="Город прибытия" AnchorPane.leftAnchor="538.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="trainSearchButton" layoutX="938.0" layoutY="50.0" mnemonicParsing="false" onAction="#searchTrains" text="Поиск" AnchorPane.leftAnchor="938.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <TableView fx:id="trainTableView" layoutX="59.0" layoutY="71.0" prefHeight="658.0" prefWidth="1198.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="trainIdColumn" prefWidth="95.0" resizable="false" text="Номер поезда" />
+                                        <TableColumn fx:id="trainCityDepartingColumn" prefWidth="148.0" resizable="false" text="Город отправления" />
+                                          <TableColumn fx:id="trainCityArrivingColumn" prefWidth="147.0" resizable="false" text="Город прибытия" />
+                                          <TableColumn fx:id="trainTimeDepartingColumn" prefWidth="209.0" resizable="false" text="Время отправления" />
+                                          <TableColumn fx:id="trainTimeArrivingColumn" prefWidth="194.0" resizable="false" text="Время прибытия" />
+                                          <TableColumn fx:id="trainDateDepColumn" maxWidth="1.7976931348623157E308" minWidth="210.0" prefWidth="-1.0" resizable="false" text="Дата отправления" />
+                                          <TableColumn fx:id="trainDateArrColumn" maxWidth="1.7976931348623157E308" minWidth="210.0" prefWidth="-1.0" resizable="false" text="Дата прибытия" />
+                                      </columns>
+                                    </TableView>
+                                    <ButtonBar layoutX="799.0" layoutY="692.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="38.0">
+                                       <buttons>
+                                          <Button fx:id="addTrainButton" mnemonicParsing="false" onAction="#addNewTrain" prefWidth="107.0" text="Добавить" />
+                                          <Button fx:id="editButton1" mnemonicParsing="false" onAction="#editTrain" text="Редактировать" />
+                                          <Button mnemonicParsing="false" onAction="#deleteTrain" text="Удалить" />
+                                       </buttons>
+                                    </ButtonBar>
+                                    <Button fx:id="carsEditButton" layoutX="677.0" layoutY="692.0" mnemonicParsing="false" onAction="#showCarsAndSeatsScene" text="Настройка вагонов" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="399.0" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
