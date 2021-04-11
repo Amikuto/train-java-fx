@@ -1,7 +1,12 @@
 package sample.request;
 
+import sample.model.City;
 import sample.model.Train;
 import sample.request.GET.Car.CarParser;
+import sample.request.GET.City.CityDelete;
+import sample.request.GET.City.CityParser;
+import sample.request.GET.City.CityPost;
+import sample.request.GET.City.CityPut;
 import sample.request.GET.Station.*;
 import sample.request.GET.Train.TrainDelete;
 import sample.request.GET.Train.TrainPost;
@@ -10,6 +15,7 @@ import sample.request.GET.Train.TrainPut;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class ReqMain {
 
@@ -36,13 +42,24 @@ public class ReqMain {
 //        System.out.println(trainParser.getTrainById(12L));
 //        System.out.println(trainParser.getListOfTrains(2, 1));
 //        System.out.println(trainParser.getListOfTrains(2, 1, "2021-03-18"));
-//        StationPost.addNewStation("Test", "TestCity");
+        StationPost.addNewStation("ьгкв", "Пермь");
 //        System.out.println(StationDelete.deleteStation(113));
 //        StationPut.editStation("3", "Test", "TestCity");
+
 //        TrainPost.addNewTrain(LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("09:00:00"), LocalTime.parse("16:00:00"), "1", "2");
 //        TrainDelete.deleteTrain("312");
 //        TrainPut.editTrain("316", LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("01:00:00"), LocalTime.parse("10:00:00"), "1", "2");
-        CarParser carParser = new CarParser();
-        System.out.println(carParser.getListOfCars(12L));
+
+//        CarParser carParser = new CarParser();
+//        System.out.println(carParser.getListOfCars(12L));
+
+//        CityParser cityParser = new CityParser();
+//        ArrayList<City> cityArrayList = cityParser.getAllCities();
+//        for (int i=0; i<cityArrayList.size(); i++)
+//            System.out.println(cityArrayList.get(i).getName());
+//        System.out.println(cityParser.getAllCities().size());
+//        CityPost.addNewCity("testName");
+//        CityPut.editCity(62L, "TestName2");
+//        CityDelete.deleteCity(62L);
     }
 }

@@ -99,7 +99,7 @@ public class Main extends Application {
         dialogStage.showAndWait();
     }
 
-    public boolean showStationEditDialog(Station station) throws IOException {
+    public boolean showStationEditDialog() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditStationPage.fxml"));
@@ -114,7 +114,7 @@ public class Main extends Application {
 
         StationEditController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-        controller.setStation(station);
+//        controller.setStation(station);
 
         dialogStage.showAndWait();
 

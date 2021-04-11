@@ -23,7 +23,7 @@ public class StationParser {
         for (int i=0;i<content.length();i++) {
             JSONObject stationToParse = content.getJSONObject(i);
 
-            String id = stationToParse.get("id").toString();
+            Long id = Long.parseLong(stationToParse.get("id").toString());
             String cityName = stationToParse.getString("city");
             String stationName = stationToParse.getString("name");
 

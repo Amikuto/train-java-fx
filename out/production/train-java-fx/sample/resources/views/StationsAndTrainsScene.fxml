@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -12,9 +13,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="900.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StationsAndTrainsSceneController">
+<AnchorPane minHeight="900.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StationsAndTrainsSceneController">
    <children>
       <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -27,20 +31,73 @@
                               <ComboBox prefWidth="150.0" visible="false" />
                             <AnchorPane>
                                  <children>
-                                    <TableView fx:id="stationTableView" layoutY="-180.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="idColumn" prefWidth="196.99998474121094" resizable="false" text="Номер странции" />
-                                        <TableColumn fx:id="cityNameColumn" prefWidth="392.33331298828125" resizable="false" text="Город" />
-                                          <TableColumn fx:id="stationNameColumn" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="1000.0" resizable="false" text="Название" />
-                                      </columns>
-                                    </TableView>
-                                    <ButtonBar layoutX="800.0" layoutY="790.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="37.0">
-                                       <buttons>
-                                          <Button fx:id="addButton" mnemonicParsing="false" onAction="#addNewStation" prefWidth="107.0" text="Добавить" />
-                                          <Button fx:id="editButton" mnemonicParsing="false" onAction="#editStation" text="Редактировать" />
-                                          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteStation" text="Удалить" />
-                                       </buttons>
-                                    </ButtonBar>
+                                    <SplitPane dividerPositions="0.29797979797979796" layoutX="332.0" layoutY="213.0" prefHeight="838.0" prefWidth="1198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <TableView fx:id="cityTableView" layoutX="-93.0" layoutY="-193.0" prefHeight="791.0" prefWidth="353.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TableColumn fx:id="idColumn" prefWidth="58.0" resizable="false" text="Номер странции" />
+                                                    <TableColumn fx:id="cityNameColumn" prefWidth="149.0" resizable="false" text="Город" />
+                                                      <TableColumn fx:id="stationNameColumn" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="145.0" resizable="false" text="Название" />
+                                                  </columns>
+                                                </TableView>
+                                                <ButtonBar layoutX="159.0" layoutY="803.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="170.0">
+                                                   <buttons>
+                                                      <Button fx:id="addCityButton" mnemonicParsing="false" onAction="#addNewCity" text="Добавить" />
+                                                      <Button fx:id="deleteCityButton" mnemonicParsing="false" onAction="#deleteCity" text="Удалить" />
+                                                   </buttons>
+                                                </ButtonBar>
+                                                <TextField fx:id="cityTextField" layoutX="8.0" layoutY="803.0" prefHeight="25.0" prefWidth="179.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" />
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <GridPane layoutX="12.0" layoutY="132.0" prefHeight="81.0" prefWidth="795.0" AnchorPane.topAnchor="0.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <Label text="id">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="Название" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="cityIdLabel" GridPane.columnIndex="1">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="cityNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </GridPane>
+                                                <ButtonBar layoutX="462.0" layoutY="800.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="14.0">
+                                                   <buttons>
+                                                      <Button fx:id="addStationButton" mnemonicParsing="false" onAction="#addNewStation" prefWidth="107.0" text="Добавить" />
+                                                      <Button fx:id="editStationButton" mnemonicParsing="false" onAction="#editStation" text="Редактировать" />
+                                                      <Button fx:id="deleteStationButton" mnemonicParsing="false" onAction="#deleteStation" text="Удалить" />
+                                                   </buttons>
+                                                </ButtonBar>
+                                                <ListView fx:id="stationsListView" layoutX="199.0" layoutY="93.0" prefHeight="698.0" prefWidth="837.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0" />
+                                                <TextField fx:id="stationNameField" layoutX="254.0" layoutY="800.0" prefHeight="25.0" prefWidth="208.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="375.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
                                  </children>
                               </AnchorPane>
                           </items>

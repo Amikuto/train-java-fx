@@ -1,18 +1,25 @@
 package sample.model;
 
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Station {
 
-    private final StringProperty id;
+    private final LongProperty id;
     private final StringProperty cityName;
     private final StringProperty stationName;
 
-    public Station(String id, String cityName, String stationName) {
-        this.id = new SimpleStringProperty(id);
+    public Station(Long id, String cityName, String stationName) {
+        this.id = new SimpleLongProperty(id);
         this.cityName = new SimpleStringProperty(cityName);
+        this.stationName = new SimpleStringProperty(stationName);
+    }
+
+    public Station(Long stationId, String stationName) {
+        this.id = new SimpleLongProperty(stationId);
+        this.cityName = new SimpleStringProperty("");
         this.stationName = new SimpleStringProperty(stationName);
     }
 
@@ -20,15 +27,16 @@ public class Station {
         this(null, null, null);
     }
 
-    public String getId() {
+
+    public Long getId() {
         return id.get();
     }
 
-    public StringProperty idProperty() {
+    public LongProperty idProperty() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 
@@ -58,10 +66,6 @@ public class Station {
 
     @Override
     public String toString() {
-        return "Station{" +
-                "id=" + id +
-                ", cityName=" + cityName +
-                ", stationName=" + stationName +
-                '}';
+        return "Станция " + stationName.getValue() + " под id = " +id.getValue();
     }
 }

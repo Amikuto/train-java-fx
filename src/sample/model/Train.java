@@ -9,7 +9,7 @@ import java.time.LocalTime;
 @Data
 public class Train {
 
-    private final StringProperty id;
+    private final LongProperty id;
 
     private final StringProperty depSt;
     private final StringProperty arrSt;
@@ -19,6 +19,7 @@ public class Train {
 
     private final ObjectProperty<LocalDate> dateDep;
     private final ObjectProperty<LocalDate> dateArr;
+
 
 //    private final StringProperty depSt;
 //    private final StringProperty arrSt;
@@ -46,8 +47,8 @@ public class Train {
 //        this.dateArr = new SimpleObjectProperty<>(dateArr);
 //    }
 
-    public Train(String id, String depSt, String arrSt, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr) {
-        this.id = new SimpleStringProperty(id);
+    public Train(Long id, String depSt, String arrSt, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr) {
+        this.id = new SimpleLongProperty(id);
         this.timeDep = new SimpleObjectProperty<>(timeDep);
         this.timeArr = new SimpleObjectProperty<>(timeArr);
         this.depSt = new SimpleStringProperty(depSt);
@@ -69,15 +70,15 @@ public class Train {
 //    }
 
 
-    public String getId() {
+    public Long getId() {
         return id.get();
     }
 
-    public StringProperty idProperty() {
+    public LongProperty idProperty() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 

@@ -1,4 +1,4 @@
-package sample.request.GET.Station;
+package sample.request.GET.City;
 
 import org.json.JSONObject;
 
@@ -8,18 +8,18 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-public class StationPost {
+public class CityPost {
 
-    public static void addNewStation(String name, String city) throws IOException {
-        final String url = "http://localhost:8080/stations/" + URLEncoder.encode(city, StandardCharsets.UTF_8);
+    public static void addNewCity(String name) throws IOException {
+        final String url = "http://localhost:8080/cities";
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         JSONObject json = new JSONObject();
         json.put("name", name);
-        json.put("cityName", city);
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("POST");

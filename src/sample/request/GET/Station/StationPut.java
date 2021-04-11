@@ -12,13 +12,13 @@ import java.nio.charset.StandardCharsets;
 
 public class StationPut {
 
-    public static void editStation(String id, String name, String city) throws IOException {
+    public static void editStation(Long id, String name) throws IOException {
         final String url = "http://localhost:8080/stations/" + id;
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         JSONObject json = new JSONObject();
         json.put("name", name);
-        json.put("city", city);
+//        json.put("city", city);
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("PUT");

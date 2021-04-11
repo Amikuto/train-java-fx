@@ -67,7 +67,7 @@ public class CarsAndSeatsSceneController {
     }
 
     public void setData() throws IOException {
-        carsData.addAll(carParser.getListOfCars(Long.parseLong(train.getId())));
+//        carsData.addAll(carParser.getListOfCars(Long.parseLong(train.getId())));
         carColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
 
         showCarsData(null);

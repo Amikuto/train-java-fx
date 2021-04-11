@@ -1,18 +1,18 @@
-package sample.request.GET.Station;
+package sample.request.GET.City;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class StationDelete {
+public class CityDelete {
 
-    public static Long deleteStation(Long stationId) throws IOException {
-        String url = "http://localhost:8080/stations/" + stationId;
+    public static Long deleteCity(Long cityId) throws IOException {
+        String url = "http://localhost:8080/cities/" + cityId;
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         httpClient.setRequestMethod("DELETE");
         if (httpClient.getResponseCode() == 200) {
-            return stationId;
+            return cityId;
         } else {
             return 0L;
         }

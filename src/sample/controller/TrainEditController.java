@@ -74,8 +74,8 @@ public class TrainEditController {
             train.setDateArr(trainDateArr.getValue());
             train.setTimeDep(LocalTime.parse(trainTimeDep.getText()));
             train.setTimeArr(LocalTime.parse(trainTimeArr.getText()));
-            train.setDepSt(trainDepStation.getValue().getId());
-            train.setArrSt(trainArrStation.getValue().getId());
+            train.setDepSt(trainDepStation.getValue().getId().toString());
+            train.setArrSt(trainArrStation.getValue().getId().toString());
 
             okClicked = true;
             dialogStage.close();

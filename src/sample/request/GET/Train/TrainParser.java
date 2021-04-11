@@ -16,7 +16,7 @@ public class TrainParser {
     private final TrainGet trainGet = new TrainGet();
 
     private void parseFunc(ArrayList<Train> trainArrayList, JSONObject obj) {
-        String id = obj.get("id").toString();
+        Long id = Long.parseLong(obj.get("id").toString());
 
         LocalTime timeDep = LocalTime.parse(obj.getString("timeDep"));
 
