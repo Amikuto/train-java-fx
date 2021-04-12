@@ -6,14 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class StationGet {
 
-    public StationGet() throws IOException {
-    }
-
-    public String stationGetAllCities() throws IOException {
-        String url = "http://localhost:8080/stations/city";
+    private String sendGetRequest(String url) throws IOException {
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
         httpClient.setRequestMethod("GET");
 
@@ -21,6 +19,11 @@ public class StationGet {
         BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 
         return rd.readLine();
+    }
+
+    public String getAllStationsByCityName(String cityName) throws IOException {
+        String url = "http://localhost:8080/stations/" + URLEncoder.encode(cityName, StandardCharsets.UTF_8) + "/city";
+        return sendGetRequest(url);
     }
 
     public String stationGetAll() throws IOException {

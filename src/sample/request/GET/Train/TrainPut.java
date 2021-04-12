@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 public class TrainPut {
 
-    public static void editTrain(String id, LocalDate dateDep, LocalDate dateArr, LocalTime timeDep, LocalTime timeArr, String arrSt, String depSt) throws IOException {
+    public static void editTrain(Long id, LocalDate dateDep, LocalDate dateArr, LocalTime timeDep, LocalTime timeArr, String arrSt, String depSt, String depCity, String arrCity) throws IOException {
         final String url = "http://localhost:8080/trains/" + id;
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
@@ -23,8 +23,10 @@ public class TrainPut {
         json.put("dateArr", dateArr);
         json.put("timeDep", timeDep);
         json.put("timeArr", timeArr);
-        json.put("arrSt", arrSt);
         json.put("depSt", depSt);
+        json.put("arrSt", arrSt);
+        json.put("arrivalCity", depCity);
+        json.put("departingCity", arrCity);
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("PUT");

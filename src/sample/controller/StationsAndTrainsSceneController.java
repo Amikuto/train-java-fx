@@ -5,9 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import sample.Main;
-import sample.model.Car;
 import sample.model.City;
 import sample.model.Station;
 import sample.model.Train;
@@ -15,17 +13,13 @@ import sample.request.GET.City.CityDelete;
 import sample.request.GET.City.CityParser;
 import sample.request.GET.City.CityPost;
 import sample.request.GET.Station.*;
-import sample.request.GET.Train.TrainDelete;
 import sample.request.GET.Train.TrainParser;
 import sample.request.GET.Train.TrainPost;
 import sample.request.GET.Train.TrainPut;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 public class StationsAndTrainsSceneController {
@@ -36,12 +30,11 @@ public class StationsAndTrainsSceneController {
     private final ObservableList<City> cityData = FXCollections.observableArrayList();
     private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
     TrainParser trainParser = new TrainParser();
+    CityParser cityParser = new CityParser();
 //    Integer departCity = 0;
 //    Integer arriveCity = 0;
 
     public TableView<City> cityTableView;
-    @FXML
-    public TableView<Station> stationTableView;
     @FXML
     public TableColumn<City, Long> idColumn;
     @FXML
@@ -49,19 +42,15 @@ public class StationsAndTrainsSceneController {
     @FXML
     public TableColumn<Station, String> stationNameColumn;
     @FXML
-    public Button addButton;
-    @FXML
-    public Button editButton;
-    @FXML
-    public Button deleteButton;
-    @FXML
     public TableView<Train> trainTableView;
     @FXML
     public TableColumn<Train, Long> trainIdColumn;
-    @FXML
     public TableColumn<Train, String> trainCityDepartingColumn;
-    @FXML
     public TableColumn<Train, String> trainCityArrivingColumn;
+    @FXML
+    public TableColumn<Train, String> trainStationDepartingColumn;
+    @FXML
+    public TableColumn<Train, String> trainStationArrivingColumn;
     @FXML
     public TableColumn<Train, LocalTime> trainTimeDepartingColumn;
     @FXML
@@ -70,11 +59,11 @@ public class StationsAndTrainsSceneController {
     public TableColumn<Train, LocalDate> trainDateDepColumn;
     @FXML
     public TableColumn<Train, LocalDate> trainDateArrColumn;
-    @FXML
-    public Button addTrainButton;
-    @FXML
-    public Button editButton1;
-    @FXML
+//    @FXML
+//    public Button addTrainButton;
+//    @FXML
+//    public Button editButton1;
+//    @FXML
     public Button trainSearchButton;
     public TextField trainCityDepNumberField;
     public TextField trainCityArrNumberField;
@@ -113,7 +102,6 @@ public class StationsAndTrainsSceneController {
 
         try {
             cityData.clear();
-            CityParser cityParser = new CityParser();
             cityData.addAll(cityParser.getAllCities());
             cityTableView.setItems(cityData);
         } catch (IOException e) {
@@ -235,6 +223,30 @@ public class StationsAndTrainsSceneController {
 //        }
 //    }
 
+    public void addNewCity() throws IOException {
+        String cityName = cityTextField.getText();
+        if (cityName.length() != 0){
+            if (!cityName.equals("Введите название города для добавления")) {
+                CityPost.addNewCity(cityName);
+            } else {
+                showWarningPopup("No input", "No city name printed", "Пожалуйста, введите правильное название города!");
+            }
+        } else {
+            showWarningPopup("No input", "No city name printed", "Пожалуйста, введите название города!");
+        }
+        refreshData();
+    }
+
+    public void deleteCity() throws IOException {
+        City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
+        if (selectedCity != null) {
+            CityDelete.deleteCity(selectedCity.getId());
+            refreshData();
+        } else {
+            showWarningPopup("No selection", "No city selected", "Пожалуйста, выберите город для удаления!");
+        }
+    }
+
     public void addNewStation() throws IOException {
         City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
         if (selectedCity != null) {
@@ -271,10 +283,42 @@ public class StationsAndTrainsSceneController {
         refreshData();
     }
 
-    public void addNewTrain(ActionEvent actionEvent) {
+    public void addNewTrain() throws IOException {
+        Train train = new Train();
+        boolean okClicked = mainApp.showTrainEditDialog(train);
+        if (okClicked) {
+            TrainPost.addNewTrain(
+                    train.getDateDep(), train.getDateArr(),
+                    train.getTimeDep(), train.getTimeArr(),
+                    train.getDepSt(), train.getArrSt(),
+                    train.getDepartingCity(), train.getArrivalCity()
+            );
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText(train + " добавлен!\n\n\nОбновите данные на странице!");
+
+            alert.showAndWait();
+        }
     }
 
-    public void editTrain(ActionEvent actionEvent) {
+    public void editTrain() throws IOException {
+        Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
+        if (selectedTrain != null) {
+            boolean okClicked = mainApp.showTrainEditDialog(selectedTrain);
+            if (okClicked) {
+                TrainPut.editTrain(
+                        selectedTrain.getId(),
+                        selectedTrain.getDateDep(), selectedTrain.getDateArr(),
+                        selectedTrain.getTimeDep(), selectedTrain.getTimeArr(),
+                        selectedTrain.getDepSt(), selectedTrain.getArrSt(),
+                        selectedTrain.getDepartingCity(), selectedTrain.getArrivalCity()
+                );
+            }
+        } else {
+            showWarningPopup("No selection", "No train selected", "Пожалуйста, выберите поезд для редактирования!");
+        }
     }
 
     public void deleteTrain(ActionEvent actionEvent) {
@@ -292,39 +336,28 @@ public class StationsAndTrainsSceneController {
 
         trainsData.addAll(trainParser.getListOfTrains(depCity, arrCity, depDate));
         trainTableView.setItems(trainsData);
+
         trainIdColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
-        trainCityDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().depStProperty());
-        trainCityArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().arrStProperty());
+
+        trainCityDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().departingCityProperty());
+        trainCityArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().arrivalCityProperty());
+
+        trainStationDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().depStProperty());
+        trainStationArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().arrStProperty());
+
         trainTimeDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().timeDepProperty());
         trainTimeArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().timeArrProperty());
+
         trainDateDepColumn.setCellValueFactory(cellData -> cellData.getValue().dateDepProperty());
         trainDateArrColumn.setCellValueFactory(cellData -> cellData.getValue().dateArrProperty());
     }
 
-    public void showCarsAndSeatsScene(ActionEvent actionEvent) {
-    }
-
-    public void addNewCity() throws IOException {
-        String cityName = cityTextField.getText();
-        if (cityName.length() != 0){
-            if (!cityName.equals("Введите название города для добавления")) {
-                CityPost.addNewCity(cityName);
-            } else {
-                showWarningPopup("No input", "No city name printed", "Пожалуйста, введите правильное города!");
-            }
+    public void showCarsAndSeatsScene() throws IOException {
+        Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
+        if (selectedTrain != null) {
+            mainApp.showCarsAndSeatsScene(selectedTrain);
         } else {
-            showWarningPopup("No input", "No city name printed", "Пожалуйста, введите название города!");
-        }
-        refreshData();
-    }
-
-    public void deleteCity() throws IOException {
-        City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
-        if (selectedCity != null) {
-            CityDelete.deleteCity(selectedCity.getId());
-            refreshData();
-        } else {
-            showWarningPopup("No selection", "No city selected", "Пожалуйста, выберите город для удаления!");
+            showWarningPopup("No train selected", "No selection", "Пожалуйста, выберите поезд для редактирования!");
         }
     }
 

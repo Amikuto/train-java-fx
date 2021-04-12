@@ -24,8 +24,8 @@ public class Main extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
-    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
+//    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
+//    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -183,9 +183,9 @@ public class Main extends Application {
     public Main(){
     }
 
-    public ObservableList<Station> getStationsData() {
-        return stationsData;
-    }
+//    public ObservableList<Station> getStationsData() {
+//        return stationsData;
+//    }
 
     public void addToTest(String login, String password) {
         this.test.put(login, password);

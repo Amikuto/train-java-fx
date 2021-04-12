@@ -12,23 +12,24 @@ import java.util.ArrayList;
 public class TrainParser {
 
     private String json;
-
     private final TrainGet trainGet = new TrainGet();
 
     private void parseFunc(ArrayList<Train> trainArrayList, JSONObject obj) {
         Long id = Long.parseLong(obj.get("id").toString());
 
         LocalTime timeDep = LocalTime.parse(obj.getString("timeDep"));
-
         LocalTime timeArr = LocalTime.parse(obj.getString("timeArr"));
 
         LocalDate dateDep = LocalDate.parse(obj.getString("dateDep"));
-
         LocalDate dateArr = LocalDate.parse(obj.getString("dateArr"));
-        String arrSt = obj.get("arrSt").toString();
-        String depSt = obj.get("depSt").toString();
 
-        Train train = new Train(id, depSt, arrSt, timeDep, timeArr, dateDep, dateArr);
+        String depSt = obj.get("depSt").toString();
+        String arrSt = obj.get("arrSt").toString();
+
+        String departingCity = obj.get("departingCity").toString();
+        String arrivalCity = obj.get("arrivalCity").toString();
+
+        Train train = new Train(id, departingCity, arrivalCity, depSt, arrSt, timeDep, timeArr, dateDep, dateArr);
 
         trainArrayList.add(train);
     }
@@ -68,7 +69,6 @@ public class TrainParser {
     public ArrayList<Train> getListOfTrains(String depCity, String arrCity, String depDate) throws IOException {
 
         json = trainGet.trainGetByDepAndArrStationAndDepDate(depCity, arrCity, depDate);
-
         JSONArray obj = new JSONArray(json);
 
         return getTrains(obj);

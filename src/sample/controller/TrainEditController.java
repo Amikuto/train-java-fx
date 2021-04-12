@@ -1,22 +1,39 @@
 package sample.controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.Main;
+import sample.model.City;
 import sample.model.Station;
 import sample.model.Train;
+import sample.request.GET.Station.StationGet;
+import sample.request.GET.Station.StationParser;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class TrainEditController {
 
+    StationParser stationParser = new StationParser();
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd");
+
+    private final ObservableList<Station> stationsDeparting = FXCollections.observableArrayList();
+    private final ObservableList<Station> stationsArriving = FXCollections.observableArrayList();
+
     private Main mainApp;
-    ObservableList<Station> stationsData;
     private Train train;
     private Stage dialogStage;
     private boolean okClicked = false;
@@ -25,6 +42,8 @@ public class TrainEditController {
     public DatePicker trainDateArr;
     public TextField trainTimeDep;
     public TextField trainTimeArr;
+    public TextField trainDepartingCity;
+    public TextField trainArrivingCity;
     public Button trainCancelButton;
     public Button trainOkButton;
     public ChoiceBox<Station> trainDepStation;
@@ -38,15 +57,20 @@ public class TrainEditController {
     }
 
     public void setStationsData(){
-        stationsData = mainApp.getStationsData().sorted();
+//        stationsData = mainApp.getStationsData().sorted();
 //        Stream<String> stationsData1 = stationsData.sorted().stream().map(Station::getStationName);
 //        System.out.println(Arrays.toString(stationsData1.toArray()));
-        trainDepStation.setItems(stationsData);
-        trainArrStation.setItems(stationsData);
+//        trainDepStation.setItems(stationsData);
+//        trainArrStation.setItems(stationsData);
+//        System.out.println(stationsData);
     }
 
     @FXML
     private void initialize(){
+        trainDateDep.setPromptText(LocalDate.now().toString());
+        trainDateArr.setPromptText(LocalDate.now().toString());
+        trainTimeDep.setText(LocalTime.of(23, 59).toString());
+        trainTimeArr.setText(LocalTime.of(23, 59).toString());
     }
 
     public void setDialogStage(Stage dialogStage) {
@@ -55,11 +79,6 @@ public class TrainEditController {
 
     public void setTrain(Train train) {
         this.train = train;
-
-        trainDateDep.setPromptText(LocalDate.now().toString());
-        trainDateArr.setPromptText(LocalDate.now().toString());
-        trainTimeDep.setText(LocalTime.of(23, 59).toString());
-        trainTimeArr.setText(LocalTime.of(23, 59).toString());
     }
 
     public boolean isOkClicked(){
@@ -70,12 +89,19 @@ public class TrainEditController {
     private void handleOk() {
         if (isInputValid()) {
 
+            train.setId(0L);
+
             train.setDateDep(trainDateDep.getValue());
             train.setDateArr(trainDateArr.getValue());
+
             train.setTimeDep(LocalTime.parse(trainTimeDep.getText()));
-            train.setTimeArr(LocalTime.parse(trainTimeArr.getText()));
-            train.setDepSt(trainDepStation.getValue().getId().toString());
-            train.setArrSt(trainArrStation.getValue().getId().toString());
+            train.setTimeArr(LocalTime.parse(trainTimeDep.getText()));
+
+            train.setDepSt(trainDepStation.getValue().getStationName());
+            train.setArrSt(trainArrStation.getValue().getStationName());
+
+            train.setDepartingCity(trainDepartingCity.getText());
+            train.setArrivalCity(trainArrivingCity.getText());
 
             okClicked = true;
             dialogStage.close();
@@ -90,12 +116,18 @@ public class TrainEditController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-//        if (stationNameField.getText() == null || stationNameField.getText().length() == 0) {
-//            errorMessage += "Указано неверное имя станции!\n";
-//        }
-//        if (stationCityField.getText() == null || stationCityField.getText().length() == 0) {
-//            errorMessage += "Указано неверное название станции!\n";
-//        }
+        if (trainDateArr.getValue() == null || isValid(trainDateArr.getValue().toString())) {
+            errorMessage += "Указана неверная дата отправления!\n";
+        }
+        if (trainDateDep.getValue() == null || isValid(trainDateDep.getValue().toString())) {
+            errorMessage += "Указана неверная дата прибытия!\n";
+        }
+        if (trainDepStation.getValue() == null || trainDepStation.getValue().getStationName().length() == 0) {
+            errorMessage += "Указано неверное название станции отправления!\n";
+        }
+        if (trainArrStation.getValue() == null || trainArrStation.getValue().getStationName().length() == 0) {
+            errorMessage += "Указано неверное название станции прибытия!\n";
+        }
 
         if (errorMessage.length() == 0) {
             return true;
@@ -109,6 +141,30 @@ public class TrainEditController {
             alert.showAndWait();
 
             return false;
+        }
+    }
+
+    private boolean isValid(String date){
+        try {
+            return DATE_FORMAT.format(DATE_FORMAT.parse(date)).equals(date);
+        }catch (ParseException ex){
+            return false;
+        }
+    }
+
+    public void getDepStationData() throws IOException {
+        if (trainDepartingCity.getText() != null && trainDepartingCity.getText().length() != 0) {
+            stationsDeparting.clear();
+            stationsDeparting.addAll(stationParser.getAllStationsByCityName(trainDepartingCity.getText()));
+            trainDepStation.setItems(stationsDeparting);
+        }
+    }
+
+    public void getArrStationData() throws IOException {
+        if (trainArrivingCity.getText() != null && trainArrivingCity.getText().length() != 0) {
+            stationsArriving.clear();
+            stationsArriving.addAll(stationParser.getAllStationsByCityName(trainArrivingCity.getText()));
+            trainArrStation.setItems(stationsArriving);
         }
     }
 }

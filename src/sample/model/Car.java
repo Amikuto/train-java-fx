@@ -12,13 +12,15 @@ public class Car {
 
     private final LongProperty id;
 
+    private final IntegerProperty number;
     private final StringProperty carClass;
     private final StringProperty type;
     private final IntegerProperty trainId;
     private final ListProperty<Seat> seats;
 
-    public Car(Long id, String carClass, String type, Integer trainId, List<Seat> seats) {
+    public Car(Long id, Integer number, String carClass, String type, Integer trainId, List<Seat> seats) {
         this.id = new SimpleLongProperty(id);
+        this.number = new SimpleIntegerProperty(number);
         this.carClass = new SimpleStringProperty(carClass);
         this.type = new SimpleStringProperty(type);
         this.trainId = new SimpleIntegerProperty(trainId);
@@ -26,7 +28,7 @@ public class Car {
     }
 
     public Car() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
     public long getId() {

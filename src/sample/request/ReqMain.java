@@ -22,10 +22,11 @@ public class ReqMain {
 
     public static void main(String[] args) throws IOException {
 
-        StationGet stationGet = new StationGet();
+//        StationGet stationGet = new StationGet();
         StationParser stationParser = new StationParser();
 
 //        System.out.println(stationParser.getAllStationsAndIds(stationGet.stationGetAll()));
+        System.out.println(stationParser.getAllStationsByCityName("Казань"));
 
 //        System.out.println(stationGet.StationGetAll());
 //
@@ -38,7 +39,7 @@ public class ReqMain {
 //            System.out.println(true);
 //        }
 
-        TrainParser trainParser = new TrainParser();
+//        TrainParser trainParser = new TrainParser();
 //        System.out.println(trainParser.getAllTrains());
 //        System.out.println(trainParser.getTrainById(12L));
 //        System.out.println(trainParser.getListOfTrains(2, 1));

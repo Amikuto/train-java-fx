@@ -34,20 +34,22 @@ public class CarParser {
         String carClass = trainToParse.getString("cclass");
         String type = trainToParse.getString("ctype");
         Integer trainId = trainToParse.getInt("tid");
+        Integer number = trainToParse.getInt("number");
         ObservableList<Seat> seats = FXCollections.observableArrayList();
         JSONArray array = trainToParse.getJSONArray("seats");
 
         for (int j=0;j<array.length();j++){
             JSONObject seat = array.getJSONObject(j);
             Long seatId = Long.parseLong(seat.get("id").toString());
-            String seatType = seat.getString("type");
+            String seatType = seat.getString("seatType");
             Integer seatCost = Integer.parseInt(seat.get("cost").toString());
-            Long seatCarId = Long.parseLong(seat.get("id").toString());
-            Seat seat_temp = new Seat(seatId, seatType, seatCost, seatCarId);
+            Integer seatNumber = Integer.parseInt(seat.get("number").toString());
+            Long seatCarId = Long.parseLong(seat.get("cid").toString());
+            Seat seat_temp = new Seat(seatId, seatNumber, seatType, seatCost, seatCarId);
             seats.add(seat_temp);
         }
 
-        Car car = new Car(id, carClass, type, trainId, seats);
+        Car car = new Car(id, number, carClass, type, trainId, seats);
         carArrayList.add(car);
     }
 
