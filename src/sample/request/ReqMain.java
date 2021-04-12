@@ -9,6 +9,7 @@ import sample.request.GET.City.CityPost;
 import sample.request.GET.City.CityPut;
 import sample.request.GET.Station.*;
 import sample.request.GET.Train.TrainDelete;
+import sample.request.GET.Train.TrainParser;
 import sample.request.GET.Train.TrainPost;
 import sample.request.GET.Train.TrainPut;
 
@@ -37,12 +38,12 @@ public class ReqMain {
 //            System.out.println(true);
 //        }
 
-//        TrainParser trainParser = new TrainParser();
+        TrainParser trainParser = new TrainParser();
 //        System.out.println(trainParser.getAllTrains());
 //        System.out.println(trainParser.getTrainById(12L));
 //        System.out.println(trainParser.getListOfTrains(2, 1));
-//        System.out.println(trainParser.getListOfTrains(2, 1, "2021-03-18"));
-        StationPost.addNewStation("ьгкв", "Пермь");
+//        System.out.println(trainParser.getListOfTrains("Москва", "Казань", "2021-03-18"));
+//        StationPost.addNewStation("ьгкв", "Пермь");
 //        System.out.println(StationDelete.deleteStation(113));
 //        StationPut.editStation("3", "Test", "TestCity");
 

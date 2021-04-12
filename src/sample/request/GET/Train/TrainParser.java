@@ -65,9 +65,9 @@ public class TrainParser {
         return getTrains(content);
     }
 
-    public ArrayList<Train> getListOfTrains(Integer depStationId, Integer arrStationId, String depDate) throws IOException {
+    public ArrayList<Train> getListOfTrains(String depCity, String arrCity, String depDate) throws IOException {
 
-        json = trainGet.trainGetByDepAndArrStationAndDepDate(depStationId, arrStationId, depDate);
+        json = trainGet.trainGetByDepAndArrStationAndDepDate(depCity, arrCity, depDate);
 
         JSONArray obj = new JSONArray(json);
 

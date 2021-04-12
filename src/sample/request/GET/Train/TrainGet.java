@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class TrainGet {
 
@@ -25,8 +27,8 @@ public class TrainGet {
         return sendGetRequest(url);
     }
 
-    public String trainGetByDepAndArrStationAndDepDate(Integer depStationId, Integer arrStationId, String depDate) throws IOException {
-        String url = "http://localhost:8080/trains/" + depStationId + "/" + arrStationId + "/" + depDate;
+    public String trainGetByDepAndArrStationAndDepDate(String depCity, String arrCity, String depDate) throws IOException {
+        String url = "http://localhost:8080/trains/" + URLEncoder.encode(depCity, StandardCharsets.UTF_8) + "/" + URLEncoder.encode(arrCity, StandardCharsets.UTF_8) + "/" + depDate;
         return sendGetRequest(url);
     }
 

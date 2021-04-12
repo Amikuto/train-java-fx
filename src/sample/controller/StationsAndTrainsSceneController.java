@@ -26,15 +26,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class StationsAndTrainsSceneController {
 
 //    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
-//    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
 //    private ObservableList<Station> stationsData;
 //    private ObservableList<Station> citiesData = FXCollections.observableArrayList();
     private final ObservableList<City> cityData = FXCollections.observableArrayList();
-//    TrainParser trainParser = new TrainParser();
+    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
+    TrainParser trainParser = new TrainParser();
 //    Integer departCity = 0;
 //    Integer arriveCity = 0;
 
@@ -56,7 +57,7 @@ public class StationsAndTrainsSceneController {
     @FXML
     public TableView<Train> trainTableView;
     @FXML
-    public TableColumn<Train, String> trainIdColumn;
+    public TableColumn<Train, Long> trainIdColumn;
     @FXML
     public TableColumn<Train, String> trainCityDepartingColumn;
     @FXML
@@ -100,11 +101,36 @@ public class StationsAndTrainsSceneController {
         refreshData();
     }
 
-    private void refreshData() throws IOException {
-        cityData.clear();
-        CityParser cityParser = new CityParser();
-        cityData.addAll(cityParser.getAllCities());
-        cityTableView.setItems(cityData);
+    public static void showWarningPopup(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void refreshData() {
+
+        try {
+            cityData.clear();
+            CityParser cityParser = new CityParser();
+            cityData.addAll(cityParser.getAllCities());
+            cityTableView.setItems(cityData);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setContentText("Нету связи с сервером!");
+            alert.setTitle("No connection");
+            alert.setHeaderText("No server connection");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                refreshData();
+            } else {
+                alert.close();
+            }
+            alert.showAndWait();
+        }
     }
 
     public void showCitiesData(City city) {
@@ -212,17 +238,15 @@ public class StationsAndTrainsSceneController {
     public void addNewStation() throws IOException {
         City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
         if (selectedCity != null) {
-            StationPost.addNewStation(stationNameField.getText(), selectedCity.getName());
+            if (stationNameField.getText().length() != 0) {
+                StationPost.addNewStation(stationNameField.getText(), selectedCity.getName());
+                refreshData();
+            } else {
+                showWarningPopup("No input", "No city selected", "Пожалуйста, введите название новой станции!");
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setContentText("Пожалуйста, выберите город для добавления новой станции!");
-            alert.setTitle("No selection");
-            alert.setHeaderText("No city selected");
-
-            alert.showAndWait();
+            showWarningPopup("No selection", "No city selected", "Пожалуйста, выберите город для добавления новой станции!");
         }
-        refreshData();
     }
 
     public void editStation() throws IOException {
@@ -230,13 +254,7 @@ public class StationsAndTrainsSceneController {
         if (station != null) {
             StationPut.editStation(station.getId(), stationNameField.getText());
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setContentText("Пожалуйста, выберите станцию для изменения!");
-            alert.setTitle("No selection");
-            alert.setHeaderText("No station selected");
-
-            alert.showAndWait();
+            showWarningPopup("No selection", "No station selected", "Пожалуйста, выберите станцию для изменения!");
         }
         refreshData();
     }
@@ -248,13 +266,7 @@ public class StationsAndTrainsSceneController {
                 StationDelete.deleteStation(i.getId());
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setContentText("Пожалуйста, выберите станции для удаления!");
-            alert.setTitle("No selection");
-            alert.setHeaderText("No station selected");
-
-            alert.showAndWait();
+            showWarningPopup("No selection", "No station selected", "Пожалуйста, выберите станции для удаления!");
         }
         refreshData();
     }
@@ -265,27 +277,43 @@ public class StationsAndTrainsSceneController {
     public void editTrain(ActionEvent actionEvent) {
     }
 
-    public void searchTrains(ActionEvent actionEvent) {
+    public void deleteTrain(ActionEvent actionEvent) {
+    }
+
+    public void searchTrains() throws IOException {
+        trainsData.clear();
+
+//        String depCity = trainCityDepNumberField.getText();
+//        String arrCity = trainCityArrNumberField.getText();
+//        String depDate = trainDateField.getValue().toString();
+        String depCity = "Москва";
+        String arrCity = "Казань";
+        String depDate = "2021-03-18";
+
+        trainsData.addAll(trainParser.getListOfTrains(depCity, arrCity, depDate));
+        trainTableView.setItems(trainsData);
+        trainIdColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        trainCityDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().depStProperty());
+        trainCityArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().arrStProperty());
+        trainTimeDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().timeDepProperty());
+        trainTimeArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().timeArrProperty());
+        trainDateDepColumn.setCellValueFactory(cellData -> cellData.getValue().dateDepProperty());
+        trainDateArrColumn.setCellValueFactory(cellData -> cellData.getValue().dateArrProperty());
     }
 
     public void showCarsAndSeatsScene(ActionEvent actionEvent) {
     }
 
-    public void deleteTrain(ActionEvent actionEvent) {
-    }
-
     public void addNewCity() throws IOException {
         String cityName = cityTextField.getText();
-        if (!cityName.equals("") | cityName.length() != 0) {
-            CityPost.addNewCity(cityName);
+        if (cityName.length() != 0){
+            if (!cityName.equals("Введите название города для добавления")) {
+                CityPost.addNewCity(cityName);
+            } else {
+                showWarningPopup("No input", "No city name printed", "Пожалуйста, введите правильное города!");
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setContentText("Пожалуйста, введите название города!");
-            alert.setTitle("No input");
-            alert.setHeaderText("No city name printed");
-
-            alert.showAndWait();
+            showWarningPopup("No input", "No city name printed", "Пожалуйста, введите название города!");
         }
         refreshData();
     }
@@ -296,13 +324,7 @@ public class StationsAndTrainsSceneController {
             CityDelete.deleteCity(selectedCity.getId());
             refreshData();
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setContentText("Пожалуйста, выберите город для удаления!");
-            alert.setTitle("No selection");
-            alert.setHeaderText("No city selected");
-
-            alert.showAndWait();
+            showWarningPopup("No selection", "No city selected", "Пожалуйста, выберите город для удаления!");
         }
     }
 
@@ -412,31 +434,31 @@ public class StationsAndTrainsSceneController {
 ////    }
 //
 //    public void searchTrains() throws IOException {
-////        ObservableList<Train> trainsData = FXCollections.observableArrayList();
+//        ObservableList<Train> trainsData = FXCollections.observableArrayList();
 //
-////        int departCity = 0;
-////        int arriveCity = 0;
-////
-////        for (Station station : stationsData) {
-////            if (trainCityDepNumberField.getText().equals(station.getStationName())){
-////                departCity = Integer.parseInt(station.getId());
-////            } else if (trainCityArrNumberField.getText().equals(station.getStationName())){
-////                arriveCity = Integer.parseInt(station.getId());
-////            }
-////        }
-////
-////        String date = trainDateField.getValue().toString();
-//////        String date = "2021-03-18";
-////
-////        trainsData.addAll(trainParser.getListOfTrains(departCity, arriveCity, date));
-////        for (Train train : trainsData) {
-////            train.setDepSt(trainCityDepNumberField.getText());
-////            train.setArrSt(trainCityArrNumberField.getText());
-////        }
+//        int departCity = 0;
+//        int arriveCity = 0;
+//
+//        for (Station station : stationsData) {
+//            if (trainCityDepNumberField.getText().equals(station.getStationName())){
+//                departCity = Integer.parseInt(station.getId());
+//            } else if (trainCityArrNumberField.getText().equals(station.getStationName())){
+//                arriveCity = Integer.parseInt(station.getId());
+//            }
+//        }
+//
+//        String date = trainDateField.getValue().toString();
+////        String date = "2021-03-18";
+//
+//        trainsData.addAll(trainParser.getListOfTrains(departCity, arriveCity, date));
+//        for (Train train : trainsData) {
+//            train.setDepSt(trainCityDepNumberField.getText());
+//            train.setArrSt(trainCityArrNumberField.getText());
+//        }
 //
 ////        showTrainsData();
 //        trainTableView.setItems(trainsData);
-////        trainIdColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+//        trainIdColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 //        trainCityDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().depStProperty());
 //        trainCityArrivingColumn.setCellValueFactory(cellData -> cellData.getValue().arrStProperty());
 //        trainTimeDepartingColumn.setCellValueFactory(cellData -> cellData.getValue().timeDepProperty());
