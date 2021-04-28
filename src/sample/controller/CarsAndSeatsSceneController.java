@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 import sample.API.Car.CarDelete;
 import sample.API.Car.CarPost;
 import sample.API.Car.CarPut;
+import sample.API.Seat.SeatDelete;
+import sample.API.Seat.SeatPost;
+import sample.API.Seat.SeatPut;
 import sample.API.Train.TrainDelete;
 import sample.API.Train.TrainPost;
 import sample.Main;
@@ -29,15 +32,10 @@ public class CarsAndSeatsSceneController {
 
     public TableView<Car> carTableView;
     public TableColumn<Car, Integer> carColumn;
-//    public Button carEditButton;
-//    public Button carDeleteButton;
-//    public Button carAddButton;
     public Label carClassLabel;
     public Label carTypeLabel;
 
     public ListView<Seat> seatsListView;
-//    public Button seatDeleteButton;
-//    public Button seatAddButton;
 
     public CarsAndSeatsSceneController(){}
 
@@ -65,6 +63,15 @@ public class CarsAndSeatsSceneController {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public static void showInfoPopup(String text, String type) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(text + type + "!\n\n\nОбновите данные на странице!");
+
         alert.showAndWait();
     }
 
@@ -96,14 +103,8 @@ public class CarsAndSeatsSceneController {
         Car car = new Car(0L, 0, "", "", train.getId(), null);
         boolean okClicked = mainApp.showCarEditDialog(car);
         if (okClicked) {
-            if (CarPost.addNewCar(car.getNumber(), car.getType(), car.getTrainId(), car.getCarClass()) == 200) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Dialog");
-                alert.setHeaderText(null);
-                alert.setContentText(car + " добавлен!\n\n\nОбновите данные на странице!");
-
-                alert.showAndWait();
-
+            if (CarPost.addNewCar(car)) {
+                showInfoPopup("Вагон", "добавлен!");
                 setData();
             } else {
                 showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
@@ -116,13 +117,12 @@ public class CarsAndSeatsSceneController {
         if (selectedCar != null) {
             boolean okClicked = mainApp.showCarEditDialog(selectedCar);
             if (okClicked) {
-                CarPut.editCar(
-                        selectedCar.getId(),
-                        selectedCar.getNumber(),
-                        selectedCar.getType(),
-                        selectedCar.getTrainId(),
-                        selectedCar.getCarClass()
-                );
+                if (CarPut.editCar(selectedCar)) {
+                    showInfoPopup("Вагон", "изменен!");
+                    setData();
+                } else {
+                    showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+                }
             }
         }
     }
@@ -130,20 +130,58 @@ public class CarsAndSeatsSceneController {
     public void deleteCar() throws IOException {
         Car selectedCar = carTableView.getSelectionModel().getSelectedItem();
         if (selectedCar != null) {
-            CarDelete.deleteCar(selectedCar.getId());
-            setData();
+            if (CarDelete.deleteCar(selectedCar.getId())) {
+                showInfoPopup("Вагон", "удален!");
+                setData();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
         } else {
-            showWarningPopup("No selection", "No train selected", "Пожалуйста, выберите поезд для удаления!");
+            showWarningPopup("No selection", "No car selected", "Пожалуйста, выберите вагон для удаления!");
         }
     }
 
-    public void editSeat(ActionEvent actionEvent) {
+    public void addNewSeat() throws IOException {
+        Seat seat = new Seat(0L, 0, "", 0, carTableView.getSelectionModel().getSelectedItem().getId());
+        boolean okClicked = mainApp.showSeatEditDialog(seat);
+        if (okClicked) {
+            if (SeatPost.addNewSeat(seat)) {
+                showInfoPopup("Новое место", "добавлено!");
+                setData();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
+        }
     }
 
-    public void deleteSeat(ActionEvent actionEvent) {
+    public void editSeat() throws IOException {
+        Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
+        if (selectedSeat != null) {
+            boolean okClicked = mainApp.showSeatEditDialog(selectedSeat);
+            if (okClicked){
+                if (SeatPut.editSeat(selectedSeat)) {
+                    showInfoPopup("Данные места", "изменены");
+                    setData();
+                } else {
+                    showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+                }
+            }
+        } else {
+            showWarningPopup("No selection", "No seat selected", "Пожалуйста, выберите место для удаления!");
+        }
     }
 
-    public void addNewSeat(ActionEvent actionEvent) {
-
+    public void deleteSeat() throws IOException {
+        Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
+        if (selectedSeat != null) {
+            if (SeatDelete.deleteSeat(selectedSeat.getId())) {
+                showInfoPopup("Место", "удалено");
+                setData();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
+        } else {
+            showWarningPopup("No selection", "No seat selected", "Пожалуйста, выберите место для удаления!");
+        }
     }
 }

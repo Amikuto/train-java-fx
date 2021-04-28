@@ -1,6 +1,7 @@
 package sample.API.Seat;
 
 import org.json.JSONObject;
+import sample.model.Seat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,14 +13,15 @@ import java.nio.charset.StandardCharsets;
 
 public class SeatPost {
 
-    public static void addNewSeat(Integer cost, Integer number, String seatType, Integer carId) throws IOException {
-        final String url = "http://localhost:8080/seats/" + carId;
+//    public static void addNewSeat(Integer cost, Integer number, String seatType, Integer carId) throws IOException {
+    public static boolean addNewSeat(Seat seat) throws IOException {
+        final String url = "http://localhost:8080/seats/" + seat.getCarId();
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         JSONObject json = new JSONObject();
-        json.put("cost", cost);
-        json.put("number", number);
-        json.put("seatType", seatType);
+        json.put("cost", seat.getCost());
+        json.put("number", seat.getNumber());
+        json.put("seatType", seat.getSeatType());
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("POST");
@@ -28,7 +30,9 @@ public class SeatPost {
         httpClient.setDoOutput(true);
         httpClient.getOutputStream().write(postDataBytes);
 
-        Reader in = new BufferedReader(new InputStreamReader(httpClient.getInputStream(), StandardCharsets.UTF_8));
+        return httpClient.getResponseCode() == 200;
+
+//        Reader in = new BufferedReader(new InputStreamReader(httpClient.getInputStream(), StandardCharsets.UTF_8));
 
 //        for (int c; (c = in.read()) >= 0;)
 //            System.out.print((char)c);

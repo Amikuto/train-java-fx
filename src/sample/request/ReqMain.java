@@ -56,7 +56,7 @@ public class ReqMain {
 //        CityDelete.deleteCity(62L);
 
 //        System.out.println(CarDelete.deleteCar(10L));
-        CarPost.addNewCar(3, "СВ", 1L, "1");
+//        CarPost.addNewCar(3, "СВ", 1L, "1");
 //        CarPut.editCar(11L, 4, "СВ", 1, "2");
 
 //        System.out.println(SeatDelete.deleteSeat(1L));

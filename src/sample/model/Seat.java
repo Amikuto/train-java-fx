@@ -1,9 +1,7 @@
 package sample.model;
 
 import javafx.beans.property.*;
-import lombok.Data;
 
-//@Data
 public class Seat {
 
     private final LongProperty id;
@@ -25,7 +23,7 @@ public class Seat {
         this(null, null, null, null, null);
     }
 
-    public long getId() {
+    public Long getId() {
         return id.get();
     }
 
@@ -33,11 +31,11 @@ public class Seat {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number.get();
     }
 
@@ -45,7 +43,7 @@ public class Seat {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number.set(number);
     }
 
@@ -61,7 +59,7 @@ public class Seat {
         this.seatType.set(seatType);
     }
 
-    public int getCost() {
+    public Integer getCost() {
         return cost.get();
     }
 
@@ -69,11 +67,11 @@ public class Seat {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(Integer cost) {
         this.cost.set(cost);
     }
 
-    public long getCarId() {
+    public Long getCarId() {
         return carId.get();
     }
 
@@ -81,7 +79,7 @@ public class Seat {
         return carId;
     }
 
-    public void setCarId(long carId) {
+    public void setCarId(Long carId) {
         this.carId.set(carId);
     }
 

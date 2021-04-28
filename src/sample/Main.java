@@ -10,9 +10,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controller.*;
 import sample.controller.editors.CarEditController;
+import sample.controller.editors.SeatEditController;
 import sample.controller.editors.StationEditController;
 import sample.controller.editors.TrainEditController;
 import sample.model.Car;
+import sample.model.Seat;
 import sample.model.Train;
 
 import java.io.IOException;
@@ -160,16 +162,31 @@ public class Main extends Application {
         dialogStage.setScene(scene);
 
         CarEditController controller = loader.getController();
-//        controller.setMainApp(this);
-//        controller.setStationsData();
         controller.setCar(car);
         controller.setDialogStage(dialogStage);
-//        controller.setTrain(train);
 
         dialogStage.showAndWait();
-
         return controller.isOkClicked();
-//        controller
+    }
+
+    public boolean showSeatEditDialog(Seat seat) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/EditSeatPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование вагонов");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        SeatEditController controller = loader.getController();
+        controller.setSeat(seat);
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
+        return controller.isOkClicked();
     }
 
     public boolean showLoginPage() throws IOException {

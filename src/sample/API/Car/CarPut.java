@@ -1,6 +1,7 @@
 package sample.API.Car;
 
 import org.json.JSONObject;
+import sample.model.Car;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,15 +13,15 @@ import java.nio.charset.StandardCharsets;
 
 public class CarPut {
 
-    public static void editCar(Long id, Integer number, String carType, Long trainId, String carClass) throws IOException {
-        final String url = "http://localhost:8080/cars/" + id;
+    public static boolean editCar(Car car) throws IOException {
+        final String url = "http://localhost:8080/cars/" + car.getId();
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         JSONObject json = new JSONObject();
-        json.put("number", number);
-        json.put("ctype", carType);
-        json.put("tid", trainId);
-        json.put("cclass", carClass);
+        json.put("number", car.getNumber());
+        json.put("ctype", car.getType());
+        json.put("tid", car.getTrainId());
+        json.put("cclass", car.getCarClass());
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("PUT");
@@ -29,9 +30,6 @@ public class CarPut {
         httpClient.setDoOutput(true);
         httpClient.getOutputStream().write(postDataBytes);
 
-        Reader in = new BufferedReader(new InputStreamReader(httpClient.getInputStream(), StandardCharsets.UTF_8));
-
-//        for (int c; (c = in.read()) >= 0;)
-//            System.out.print((char)c);
+        return httpClient.getResponseCode() == 200;
     }
 }
