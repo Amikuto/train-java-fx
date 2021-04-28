@@ -23,12 +23,8 @@ import java.util.HashMap;
 
 public class Main extends Application {
 
-    private final HashMap<String, String> test = new HashMap<>();
     private Stage primaryStage;
     private BorderPane rootLayout;
-
-//    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
-//    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -47,7 +43,6 @@ public class Main extends Application {
         showRootLayout();
 
 //        if (this.showLoginPage()){
-
         showWelcomeScene();
 //        }
     }
@@ -98,9 +93,6 @@ public class Main extends Application {
         dialogStage.setScene(scene);
 
         RegistrationPageController controller = loader.getController();
-//        controller.set
-
-
         dialogStage.showAndWait();
     }
 
@@ -119,8 +111,6 @@ public class Main extends Application {
 
         StationEditController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-//        controller.setStation(station);
-
         dialogStage.showAndWait();
 
         return controller.isOkClicked();
@@ -215,8 +205,10 @@ public class Main extends Application {
         loader.setLocation(Main.class.getResource("/views/RootLayout.fxml"));
         rootLayout = loader.load();
 
+        RootLayoutController controller = loader.getController();
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
+        controller.setMainApp(this);
         primaryStage.show();
     }
 
@@ -225,18 +217,6 @@ public class Main extends Application {
     }
 
     public Main(){
-    }
-
-//    public ObservableList<Station> getStationsData() {
-//        return stationsData;
-//    }
-
-    public void addToTest(String login, String password) {
-        this.test.put(login, password);
-    }
-
-    public void printTestList() {
-        System.out.println(this.test);
     }
 
     public static void main(String[] args) {

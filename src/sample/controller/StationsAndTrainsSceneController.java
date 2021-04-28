@@ -54,19 +54,12 @@ public class StationsAndTrainsSceneController {
     public TableColumn<Train, LocalDate> trainDateDepColumn;
     @FXML
     public TableColumn<Train, LocalDate> trainDateArrColumn;
-    public Button trainSearchButton;
     public TextField trainCityDepNumberField;
     public TextField trainCityArrNumberField;
     public DatePicker trainDateField;
-    public Button carsEditButton;
     public Label cityIdLabel;
     public Label cityNameLabel;
-    public Button addStationButton;
-    public Button editStationButton;
-    public Button deleteStationButton;
     public ListView<Station> stationsListView;
-    public Button addCityButton;
-    public Button deleteCityButton;
     public TextField cityTextField;
     public TextField stationNameField;
 
@@ -74,7 +67,7 @@ public class StationsAndTrainsSceneController {
 
     public StationsAndTrainsSceneController(){}
 
-    public void setMainApp(Main mainApp) throws IOException {
+    public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
 
         refreshData();
@@ -85,6 +78,15 @@ public class StationsAndTrainsSceneController {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public static void showInfoPopup(String text, String type) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(text + type + "!\n\n\nОбновите данные на странице!");
+
         alert.showAndWait();
     }
 
