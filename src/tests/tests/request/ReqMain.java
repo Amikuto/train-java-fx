@@ -1,20 +1,15 @@
-package sample.request;
+package tests.request;
 
-import sample.API.Car.CarPost;
-import sample.API.Seat.SeatPost;
 import sample.API.Station.*;
-import sample.API.Train.TrainPost;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class ReqMain {
 
     public static void main(String[] args) throws IOException {
 
 //        StationGet stationGet = new StationGet();
-        StationParser stationParser = new StationParser();
+//        StationParser stationParser = new StationParser();
 
 //        System.out.println(stationParser.getAllStationsAndIds(stationGet.stationGetAll()));
 //        System.out.println(stationParser.getAllStationsByCityName("Казань"));
