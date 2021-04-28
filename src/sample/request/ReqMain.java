@@ -76,7 +76,7 @@ public class ReqMain {
 //        CarPut.editCar(11L, 4, "СВ", 1, "2");
 
 //        System.out.println(SeatDelete.deleteSeat(1L));
-//        SeatPost.addNewSeat(123, 123, "upper", 1);
+        SeatPost.addNewSeat(123, 123, "upper", 1);
 //        SeatPut.editSeat(50L, 2345, 888, "lower", 1);
     }
 }

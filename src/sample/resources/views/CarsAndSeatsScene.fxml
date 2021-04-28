@@ -27,9 +27,9 @@
                         </TableView>
                         <ButtonBar accessibleRole="BUTTON" buttonMinWidth="10.0" layoutX="-11.0" layoutY="860.0" prefHeight="30.0" prefWidth="270.0" AnchorPane.bottomAnchor="7.0">
                             <buttons>
-                                <Button fx:id="carEditButton" mnemonicParsing="false" prefWidth="119.0" text="Редактировать" />
-                                <Button fx:id="carDeleteButton" mnemonicParsing="false" text="Удалить" />
-                                <Button fx:id="carAddButton" mnemonicParsing="false" text="Добавить" />
+                                <Button fx:id="carEditButton" mnemonicParsing="false" onAction="#editCar" prefWidth="119.0" text="Редактировать" />
+                                <Button fx:id="carDeleteButton" mnemonicParsing="false" onAction="#deleteCar" text="Удалить" />
+                                <Button fx:id="carAddButton" mnemonicParsing="false" onAction="#addNewCar" text="Добавить" />
                             </buttons>
                         </ButtonBar>
                     </children>
@@ -72,8 +72,9 @@
                         <ListView fx:id="seatsListView" layoutX="21.0" layoutY="86.0" prefHeight="769.0" prefWidth="622.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0" />
                         <ButtonBar layoutX="428.0" layoutY="864.0" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                                <Button fx:id="seatDeleteButton" mnemonicParsing="false" text="Удалить" />
-                                <Button fx:id="seatAddButton" mnemonicParsing="false" text="Добавить" />
+                                <Button mnemonicParsing="false" onAction="#editSeat" text="Редактировать" />
+                                <Button mnemonicParsing="false" onAction="#deleteSeat" text="Удалить" />
+                                <Button mnemonicParsing="false" onAction="#addNewSeat" text="Добавить" />
                             </buttons>
                         </ButtonBar>
                     </children>
