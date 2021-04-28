@@ -31,8 +31,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Train application!");
-        this.primaryStage.setMaximized(true);
-        this.primaryStage.setResizable(false);
+//        this.primaryStage.setMaximized(true);
+//        this.primaryStage.setResizable(false);
 
         // Set logo on the top left
         InputStream iconStream = getClass().getResourceAsStream("/static/TLogo.jpeg");

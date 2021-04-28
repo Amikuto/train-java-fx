@@ -6,15 +6,15 @@ import java.net.URL;
 
 public class TrainDelete {
 
-    public static Integer deleteTrain(String trainId) throws IOException {
-        String url = "http://localhost:8080/trains/" + Integer.parseInt(trainId);
+    public static Long deleteTrain(Long trainId) throws IOException {
+        String url = "http://localhost:8080/trains/" + trainId;
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         httpClient.setRequestMethod("DELETE");
         if (httpClient.getResponseCode() == 200) {
-            return Integer.parseInt(trainId);
+            return trainId;
         } else {
-            return 0;
+            return 0L;
         }
     }
 }

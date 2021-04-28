@@ -13,6 +13,7 @@ import sample.request.GET.City.CityDelete;
 import sample.request.GET.City.CityParser;
 import sample.request.GET.City.CityPost;
 import sample.request.GET.Station.*;
+import sample.request.GET.Train.TrainDelete;
 import sample.request.GET.Train.TrainParser;
 import sample.request.GET.Train.TrainPost;
 import sample.request.GET.Train.TrainPut;
@@ -321,7 +322,14 @@ public class StationsAndTrainsSceneController {
         }
     }
 
-    public void deleteTrain(ActionEvent actionEvent) {
+    public void deleteTrain() throws IOException {
+        Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
+        if (selectedTrain != null) {
+            TrainDelete.deleteTrain(selectedTrain.getId());
+            refreshData();
+        } else {
+            showWarningPopup("No selection", "No train selected", "Пожалуйста, выберите поезд для удаления!");
+        }
     }
 
     public void searchTrains() throws IOException {

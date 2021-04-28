@@ -1,18 +1,18 @@
-package sample.request.GET.Car;
+package sample.request.GET.Seat;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CarDelete {
+public class SeatDelete {
 
-    public static Long deleteCar(Long carId) throws IOException {
-        String url = "http://localhost:8080/cars/" + carId;
+    public static Long deleteSeat(Long seatId) throws IOException {
+        String url = "http://localhost:8080/seats/" + seatId;
         HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         httpClient.setRequestMethod("DELETE");
         if (httpClient.getResponseCode() == 200) {
-            return carId;
+            return seatId;
         } else {
             return 0L;
         }
