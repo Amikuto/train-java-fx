@@ -12,24 +12,38 @@ public class Car {
 
     private final LongProperty id;
 
+    private final IntegerProperty number;
     private final StringProperty carClass;
     private final StringProperty type;
-    private final IntegerProperty trainId;
+    private final LongProperty trainId;
     private final ListProperty<Seat> seats;
 
-    public Car(Long id, String carClass, String type, Integer trainId, List<Seat> seats) {
+    public Car(Long id, Integer number, String carClass, String type, Long trainId, List<Seat> seats) {
         this.id = new SimpleLongProperty(id);
+        this.number = new SimpleIntegerProperty(number);
         this.carClass = new SimpleStringProperty(carClass);
         this.type = new SimpleStringProperty(type);
-        this.trainId = new SimpleIntegerProperty(trainId);
+        this.trainId = new SimpleLongProperty(trainId);
         this.seats = new SimpleListProperty<>((ObservableList<Seat>) seats);
     }
 
     public Car() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
-    public long getId() {
+    public Integer getNumber() {
+        return number.get();
+    }
+
+    public IntegerProperty numberProperty() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number.set(number);
+    }
+
+    public Long getId() {
         return id.get();
     }
 
@@ -37,7 +51,7 @@ public class Car {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 
@@ -65,15 +79,15 @@ public class Car {
         this.type.set(type);
     }
 
-    public int getTrainId() {
+    public Long getTrainId() {
         return trainId.get();
     }
 
-    public IntegerProperty trainIdProperty() {
+    public LongProperty trainIdProperty() {
         return trainId;
     }
 
-    public void setTrainId(int trainId) {
+    public void setTrainId(Integer trainId) {
         this.trainId.set(trainId);
     }
 

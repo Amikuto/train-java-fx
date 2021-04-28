@@ -1,8 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -11,7 +9,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controller.*;
-import sample.model.Station;
+import sample.controller.editors.CarEditController;
+import sample.controller.editors.SeatEditController;
+import sample.controller.editors.StationEditController;
+import sample.controller.editors.TrainEditController;
+import sample.model.Car;
+import sample.model.Seat;
 import sample.model.Train;
 
 import java.io.IOException;
@@ -20,19 +23,17 @@ import java.util.HashMap;
 
 public class Main extends Application {
 
-    private final HashMap<String, String> test = new HashMap<>();
     private Stage primaryStage;
     private BorderPane rootLayout;
-
-    private final ObservableList<Train> trainsData = FXCollections.observableArrayList();
-    private final ObservableList<Station> stationsData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Train application!");
-        this.primaryStage.setMaximized(true);
-        this.primaryStage.setResizable(false);
+        this.primaryStage.setWidth(1200);
+        this.primaryStage.setHeight(750);
+//        this.primaryStage.setMaximized(true);
+//        this.primaryStage.setResizable(false);
 
         // Set logo on the top left
         InputStream iconStream = getClass().getResourceAsStream("/static/TLogo.jpeg");
@@ -42,7 +43,6 @@ public class Main extends Application {
         showRootLayout();
 
 //        if (this.showLoginPage()){
-
         showWelcomeScene();
 //        }
     }
@@ -93,13 +93,10 @@ public class Main extends Application {
         dialogStage.setScene(scene);
 
         RegistrationPageController controller = loader.getController();
-//        controller.set
-
-
         dialogStage.showAndWait();
     }
 
-    public boolean showStationEditDialog(Station station) throws IOException {
+    public boolean showStationEditDialog() throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditStationPage.fxml"));
@@ -114,15 +111,12 @@ public class Main extends Application {
 
         StationEditController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-        controller.setStation(station);
-
         dialogStage.showAndWait();
 
         return controller.isOkClicked();
     }
 
     public boolean showTrainEditDialog(Train train) throws IOException {
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditTrainPage.fxml"));
         AnchorPane page = loader.load();
@@ -142,6 +136,46 @@ public class Main extends Application {
 
         dialogStage.showAndWait();
 
+        return controller.isOkClicked();
+    }
+
+    public boolean showCarEditDialog(Car car) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/EditCarPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование вагонов");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        CarEditController controller = loader.getController();
+        controller.setCar(car);
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
+        return controller.isOkClicked();
+    }
+
+    public boolean showSeatEditDialog(Seat seat) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/EditSeatPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование вагонов");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        SeatEditController controller = loader.getController();
+        controller.setSeat(seat);
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
         return controller.isOkClicked();
     }
 
@@ -171,8 +205,10 @@ public class Main extends Application {
         loader.setLocation(Main.class.getResource("/views/RootLayout.fxml"));
         rootLayout = loader.load();
 
+        RootLayoutController controller = loader.getController();
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
+        controller.setMainApp(this);
         primaryStage.show();
     }
 
@@ -181,18 +217,6 @@ public class Main extends Application {
     }
 
     public Main(){
-    }
-
-    public ObservableList<Station> getStationsData() {
-        return stationsData;
-    }
-
-    public void addToTest(String login, String password) {
-        this.test.put(login, password);
-    }
-
-    public void printTestList() {
-        System.out.println(this.test);
     }
 
     public static void main(String[] args) {
