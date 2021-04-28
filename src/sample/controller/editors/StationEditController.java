@@ -6,10 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Station;
-import sample.request.GET.Station.StationPost;
-import sample.request.GET.Station.StationPut;
-
-import java.io.IOException;
 
 public class StationEditController {
 

@@ -6,11 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import sample.API.Car.CarDelete;
+import sample.API.Car.CarPost;
+import sample.API.Car.CarPut;
+import sample.API.Train.TrainDelete;
+import sample.API.Train.TrainPost;
 import sample.Main;
 import sample.model.Car;
 import sample.model.Seat;
 import sample.model.Train;
-import sample.request.GET.Car.CarParser;
+import sample.API.Car.CarParser;
 
 import java.io.IOException;
 
@@ -23,7 +28,7 @@ public class CarsAndSeatsSceneController {
     CarParser carParser = new CarParser();
 
     public TableView<Car> carTableView;
-    public TableColumn<Car, Long> carColumn;
+    public TableColumn<Car, Integer> carColumn;
 //    public Button carEditButton;
 //    public Button carDeleteButton;
 //    public Button carAddButton;
@@ -55,6 +60,14 @@ public class CarsAndSeatsSceneController {
         seatsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    public static void showWarningPopup(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     public void showCarsData(Car car) {
         if (car != null) {
             seatsListView.getItems().clear();
@@ -68,8 +81,9 @@ public class CarsAndSeatsSceneController {
     }
 
     public void setData() throws IOException {
+        carsData.clear();
         carsData.addAll(carParser.getListOfCars(train.getId()));
-        carColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        carColumn.setCellValueFactory(cellData -> cellData.getValue().numberProperty().asObject());
 
         showCarsData(null);
 
@@ -78,13 +92,49 @@ public class CarsAndSeatsSceneController {
         );
     }
 
-    public void editCar(ActionEvent actionEvent) {
+    public void addNewCar() throws IOException {
+        Car car = new Car(0L, 0, "", "", train.getId(), null);
+        boolean okClicked = mainApp.showCarEditDialog(car);
+        if (okClicked) {
+            if (CarPost.addNewCar(car.getNumber(), car.getType(), car.getTrainId(), car.getCarClass()) == 200) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText(car + " добавлен!\n\n\nОбновите данные на странице!");
+
+                alert.showAndWait();
+
+                setData();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
+        }
     }
 
-    public void deleteCar(ActionEvent actionEvent) {
+    public void editCar() throws IOException {
+        Car selectedCar = carTableView.getSelectionModel().getSelectedItem();
+        if (selectedCar != null) {
+            boolean okClicked = mainApp.showCarEditDialog(selectedCar);
+            if (okClicked) {
+                CarPut.editCar(
+                        selectedCar.getId(),
+                        selectedCar.getNumber(),
+                        selectedCar.getType(),
+                        selectedCar.getTrainId(),
+                        selectedCar.getCarClass()
+                );
+            }
+        }
     }
 
-    public void addNewCar(ActionEvent actionEvent) {
+    public void deleteCar() throws IOException {
+        Car selectedCar = carTableView.getSelectionModel().getSelectedItem();
+        if (selectedCar != null) {
+            CarDelete.deleteCar(selectedCar.getId());
+            setData();
+        } else {
+            showWarningPopup("No selection", "No train selected", "Пожалуйста, выберите поезд для удаления!");
+        }
     }
 
     public void editSeat(ActionEvent actionEvent) {

@@ -9,8 +9,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controller.*;
+import sample.controller.editors.CarEditController;
 import sample.controller.editors.StationEditController;
 import sample.controller.editors.TrainEditController;
+import sample.model.Car;
 import sample.model.Train;
 
 import java.io.IOException;
@@ -30,6 +32,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Train application!");
+        this.primaryStage.setWidth(1200);
+        this.primaryStage.setHeight(750);
 //        this.primaryStage.setMaximized(true);
 //        this.primaryStage.setResizable(false);
 
@@ -121,7 +125,6 @@ public class Main extends Application {
     }
 
     public boolean showTrainEditDialog(Train train) throws IOException {
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditTrainPage.fxml"));
         AnchorPane page = loader.load();
@@ -142,6 +145,31 @@ public class Main extends Application {
         dialogStage.showAndWait();
 
         return controller.isOkClicked();
+    }
+
+    public boolean showCarEditDialog(Car car) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/EditCarPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Редактирование вагонов");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        CarEditController controller = loader.getController();
+//        controller.setMainApp(this);
+//        controller.setStationsData();
+        controller.setCar(car);
+        controller.setDialogStage(dialogStage);
+//        controller.setTrain(train);
+
+        dialogStage.showAndWait();
+
+        return controller.isOkClicked();
+//        controller
     }
 
     public boolean showLoginPage() throws IOException {

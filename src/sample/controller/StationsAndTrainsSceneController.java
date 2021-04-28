@@ -2,21 +2,20 @@ package sample.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import sample.Main;
 import sample.model.City;
 import sample.model.Station;
 import sample.model.Train;
-import sample.request.GET.City.CityDelete;
-import sample.request.GET.City.CityParser;
-import sample.request.GET.City.CityPost;
-import sample.request.GET.Station.*;
-import sample.request.GET.Train.TrainDelete;
-import sample.request.GET.Train.TrainParser;
-import sample.request.GET.Train.TrainPost;
-import sample.request.GET.Train.TrainPut;
+import sample.API.City.CityDelete;
+import sample.API.City.CityParser;
+import sample.API.City.CityPost;
+import sample.API.Station.*;
+import sample.API.Train.TrainDelete;
+import sample.API.Train.TrainParser;
+import sample.API.Train.TrainPost;
+import sample.API.Train.TrainPut;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -288,19 +287,22 @@ public class StationsAndTrainsSceneController {
         Train train = new Train();
         boolean okClicked = mainApp.showTrainEditDialog(train);
         if (okClicked) {
-            TrainPost.addNewTrain(
+            if (TrainPost.addNewTrain(
                     train.getDateDep(), train.getDateArr(),
                     train.getTimeDep(), train.getTimeArr(),
                     train.getDepSt(), train.getArrSt(),
-                    train.getDepartingCity(), train.getArrivalCity()
-            );
+                    train.getDepartingCity(), train.getArrivalCity()) == 200) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText(train + " добавлен!\n\n\nОбновите данные на странице!");
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText(null);
-            alert.setContentText(train + " добавлен!\n\n\nОбновите данные на странице!");
+                alert.showAndWait();
 
-            alert.showAndWait();
+                searchTrains();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
         }
     }
 

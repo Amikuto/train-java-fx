@@ -4,14 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.Main;
-import sample.model.City;
 import sample.model.Station;
 import sample.model.Train;
-import sample.request.GET.Station.StationGet;
-import sample.request.GET.Station.StationParser;
+import sample.API.Station.StationParser;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -19,10 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 public class TrainEditController {
 
@@ -95,7 +88,7 @@ public class TrainEditController {
             train.setDateArr(trainDateArr.getValue());
 
             train.setTimeDep(LocalTime.parse(trainTimeDep.getText()));
-            train.setTimeArr(LocalTime.parse(trainTimeDep.getText()));
+            train.setTimeArr(LocalTime.parse(trainTimeArr.getText()));
 
             train.setDepSt(trainDepStation.getValue().getStationName());
             train.setArrSt(trainArrStation.getValue().getStationName());

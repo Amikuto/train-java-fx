@@ -39,7 +39,7 @@
                                                   <columns>
                                                     <TableColumn fx:id="idColumn" prefWidth="58.0" resizable="false" text="Номер странции" />
                                                     <TableColumn fx:id="cityNameColumn" prefWidth="149.0" resizable="false" text="Город" />
-                                                      <TableColumn fx:id="stationNameColumn" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="145.0" text="Область" />
+                                                      <TableColumn fx:id="stationNameColumn" editable="false" maxWidth="1000.0" minWidth="-1.0" prefWidth="145.0" text="Область" visible="false" />
                                                   </columns>
                                                 </TableView>
                                                 <ButtonBar layoutX="159.0" layoutY="803.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="170.0">
@@ -110,7 +110,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.1482444733420026" layoutX="237.0" layoutY="177.0" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.18804920913884007" layoutX="237.0" layoutY="177.0" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
                                  <children>

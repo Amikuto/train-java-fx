@@ -7,7 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Main;
-import sample.request.GET.User.UserGet;
+import sample.API.User.UserGet;
 
 import java.io.IOException;
 

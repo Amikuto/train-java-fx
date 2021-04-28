@@ -1,29 +1,13 @@
 package sample.request;
 
-import sample.model.City;
-import sample.model.Seat;
-import sample.model.Train;
-import sample.request.GET.Car.CarDelete;
-import sample.request.GET.Car.CarParser;
-import sample.request.GET.Car.CarPost;
-import sample.request.GET.Car.CarPut;
-import sample.request.GET.City.CityDelete;
-import sample.request.GET.City.CityParser;
-import sample.request.GET.City.CityPost;
-import sample.request.GET.City.CityPut;
-import sample.request.GET.Seat.SeatDelete;
-import sample.request.GET.Seat.SeatPost;
-import sample.request.GET.Seat.SeatPut;
-import sample.request.GET.Station.*;
-import sample.request.GET.Train.TrainDelete;
-import sample.request.GET.Train.TrainParser;
-import sample.request.GET.Train.TrainPost;
-import sample.request.GET.Train.TrainPut;
+import sample.API.Car.CarPost;
+import sample.API.Seat.SeatPost;
+import sample.API.Station.*;
+import sample.API.Train.TrainPost;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class ReqMain {
 
@@ -55,7 +39,7 @@ public class ReqMain {
 //        System.out.println(StationDelete.deleteStation(113));
 //        StationPut.editStation("3", "Test", "TestCity");
 
-//        TrainPost.addNewTrain(LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("09:00:00"), LocalTime.parse("16:00:00"), "1", "2");
+//        System.out.println(TrainPost.addNewTrain(LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("09:00:00"), LocalTime.parse("16:00:00"), "123", "Московская", "Москва", "Казань"));
 //        TrainDelete.deleteTrain(3L);
 //        TrainPut.editTrain("316", LocalDate.parse("2021-03-18"), LocalDate.parse("2021-03-19"), LocalTime.parse("01:00:00"), LocalTime.parse("10:00:00"), "1", "2");
 
@@ -72,11 +56,11 @@ public class ReqMain {
 //        CityDelete.deleteCity(62L);
 
 //        System.out.println(CarDelete.deleteCar(10L));
-//        CarPost.addNewCar(3, "СВ", 1, "1");
+        CarPost.addNewCar(3, "СВ", 1L, "1");
 //        CarPut.editCar(11L, 4, "СВ", 1, "2");
 
 //        System.out.println(SeatDelete.deleteSeat(1L));
-        SeatPost.addNewSeat(123, 123, "upper", 1);
+//        SeatPost.addNewSeat(123, 123, "upper", 1);
 //        SeatPut.editSeat(50L, 2345, 888, "lower", 1);
     }
 }
