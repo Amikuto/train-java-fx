@@ -20,6 +20,8 @@ import sample.API.Train.TrainPut;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Optional;
 
 public class StationsAndTrainsSceneController {
@@ -85,7 +87,7 @@ public class StationsAndTrainsSceneController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText(text + type + "!\n\n\nОбновите данные на странице!");
+        alert.setContentText(text + " " + type + "!\n\n\nОбновите данные на странице!");
 
         alert.showAndWait();
     }
@@ -143,16 +145,11 @@ public class StationsAndTrainsSceneController {
         String cityName = cityTextField.getText();
         if (cityName.length() != 0){
             if (!cityName.equals("Введите название города для добавления")) {
-                Integer response = CityPost.addNewCity(cityName);
-                if (response == 500){
+                if (CityPost.addNewCity(cityName)) {
+                    showInfoPopup("Город", "добавлен");
+                    refreshData();
+                } else {
                     showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
-                } else if (response == 200) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Dialog");
-                    alert.setHeaderText(null);
-                    alert.setContentText(cityName + " добавлен!\n\n\nОбновите данные на странице!");
-
-                    alert.showAndWait();
                 }
             } else {
                 showWarningPopup("No input", "No city name printed", "Пожалуйста, введите правильное название города!");
@@ -160,14 +157,17 @@ public class StationsAndTrainsSceneController {
         } else {
             showWarningPopup("No input", "No city name printed", "Пожалуйста, введите название города!");
         }
-        refreshData();
     }
 
     public void deleteCity() throws IOException {
         City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
         if (selectedCity != null) {
-            CityDelete.deleteCity(selectedCity.getId());
-            refreshData();
+            if (CityDelete.deleteCity(selectedCity.getId())) {
+                showInfoPopup("Город", "удален");
+                refreshData();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
         } else {
             showWarningPopup("No selection", "No city selected", "Пожалуйста, выберите город для удаления!");
         }
@@ -177,18 +177,12 @@ public class StationsAndTrainsSceneController {
         City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
         if (selectedCity != null) {
             if (stationNameField.getText().length() != 0) {
-                Integer response = StationPost.addNewStation(stationNameField.getText(), selectedCity.getName());
-                if (response == 500) {
+                if (StationPost.addNewStation(stationNameField.getText(), selectedCity.getName())) {
+                    showInfoPopup("Станция", "добавлена");
+                    refreshData();
+                } else {
                     showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
-                } else if (response == 200) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Dialog");
-                    alert.setHeaderText(null);
-                    alert.setContentText(selectedCity + " добавлен!\n\n\nОбновите данные на странице!");
-
-                    alert.showAndWait();
                 }
-                refreshData();
             } else {
                 showWarningPopup("No input", "No city selected", "Пожалуйста, введите название новой станции!");
             }
@@ -200,51 +194,40 @@ public class StationsAndTrainsSceneController {
     public void editStation() throws IOException {
         Station station = stationsListView.getSelectionModel().getSelectedItem();
         if (station != null) {
-            Integer response = StationPut.editStation(station.getId(), stationNameField.getText());
-            if (response == 500) {
+            if (StationPut.editStation(station.getId(), stationNameField.getText())) {
+                showInfoPopup("Станция", "изменена");
+                refreshData();
+            } else {
                 showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
-            } else if (response == 200) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Dialog");
-                alert.setHeaderText(null);
-                alert.setContentText(station + " добавлен!\n\n\nОбновите данные на странице!");
-
-                alert.showAndWait();
             }
         } else {
             showWarningPopup("No selection", "No station selected", "Пожалуйста, выберите станцию для изменения!");
         }
-        refreshData();
     }
 
     public void deleteStation() throws IOException {
         ObservableList<Station> list = stationsListView.getSelectionModel().getSelectedItems();
         if (list.size() != 0) {
             for (Station i:list) {
-                StationDelete.deleteStation(i.getId());
+                if (StationDelete.deleteStation(i.getId())) {
+                    showInfoPopup("Станция", "удалена");
+                    refreshData();
+                } else {
+                    showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+                }
             }
         } else {
             showWarningPopup("No selection", "No station selected", "Пожалуйста, выберите станции для удаления!");
         }
-        refreshData();
     }
 
     public void addNewTrain() throws IOException {
-        Train train = new Train();
+        LocalTime currTime = LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute());
+        Train train = new Train(0L, trainCityDepNumberField.getText(), trainCityArrNumberField.getText(), "", "", currTime, currTime, LocalDate.now(), LocalDate.now());
         boolean okClicked = mainApp.showTrainEditDialog(train);
         if (okClicked) {
-            if (TrainPost.addNewTrain(
-                    train.getDateDep(), train.getDateArr(),
-                    train.getTimeDep(), train.getTimeArr(),
-                    train.getDepSt(), train.getArrSt(),
-                    train.getDepartingCity(), train.getArrivalCity()) == 200) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Dialog");
-                alert.setHeaderText(null);
-                alert.setContentText(train + " добавлен!\n\n\nОбновите данные на странице!");
-
-                alert.showAndWait();
-
+            if (TrainPost.addNewTrain(train)) {
+                showInfoPopup("Поезд", "добвален");
                 searchTrains();
             } else {
                 showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
@@ -257,14 +240,13 @@ public class StationsAndTrainsSceneController {
         if (selectedTrain != null) {
             boolean okClicked = mainApp.showTrainEditDialog(selectedTrain);
             if (okClicked) {
-                TrainPut.editTrain(
-                        selectedTrain.getId(),
-                        selectedTrain.getDateDep(), selectedTrain.getDateArr(),
-                        selectedTrain.getTimeDep(), selectedTrain.getTimeArr(),
-                        selectedTrain.getDepSt(), selectedTrain.getArrSt(),
-                        selectedTrain.getDepartingCity(), selectedTrain.getArrivalCity()
-                );
-                searchTrains();
+                System.out.println(selectedTrain);
+                if (TrainPut.editTrain(selectedTrain)) {
+                    showInfoPopup(selectedTrain.toString(), "изменен");
+                    searchTrains();
+                } else {
+                    showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+                }
             }
         } else {
             showWarningPopup("No selection", "No train selected", "Пожалуйста, выберите поезд для редактирования!");
@@ -274,8 +256,12 @@ public class StationsAndTrainsSceneController {
     public void deleteTrain() throws IOException {
         Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
         if (selectedTrain != null) {
-            TrainDelete.deleteTrain(selectedTrain.getId());
-            searchTrains();
+            if (TrainDelete.deleteTrain(selectedTrain.getId())) {
+                showInfoPopup("Поезд", "удален");
+                searchTrains();
+            } else {
+                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+            }
         } else {
             showWarningPopup("No selection", "No train selected", "Пожалуйста, выберите поезд для удаления!");
         }

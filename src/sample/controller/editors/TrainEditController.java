@@ -60,8 +60,8 @@ public class TrainEditController {
 
     @FXML
     private void initialize(){
-        trainDateDep.setPromptText(LocalDate.now().toString());
-        trainDateArr.setPromptText(LocalDate.now().toString());
+//        trainDateDep.setPromptText(LocalDate.now().toString());
+//        trainDateArr.setPromptText(LocalDate.now().toString());
         trainTimeDep.setText(LocalTime.of(23, 59).toString());
         trainTimeArr.setText(LocalTime.of(23, 59).toString());
     }
@@ -72,6 +72,12 @@ public class TrainEditController {
 
     public void setTrain(Train train) {
         this.train = train;
+        trainDateDep.setValue(this.train.getDateDep());
+        trainDateArr.setValue(this.train.getDateArr());
+        trainTimeDep.setText(this.train.getTimeDep().toString());
+        trainTimeArr.setText(this.train.getTimeArr().toString());
+        trainDepartingCity.setText(this.train.getDepartingCity());
+        trainArrivingCity.setText(this.train.getArrivalCity());
     }
 
     public boolean isOkClicked(){
@@ -82,7 +88,7 @@ public class TrainEditController {
     private void handleOk() {
         if (isInputValid()) {
 
-            train.setId(0L);
+            train.setId(train.getId());
 
             train.setDateDep(trainDateDep.getValue());
             train.setDateArr(trainDateArr.getValue());

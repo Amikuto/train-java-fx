@@ -17,6 +17,7 @@ import sample.API.Train.TrainPost;
 import sample.Main;
 import sample.model.Car;
 import sample.model.Seat;
+import sample.model.Station;
 import sample.model.Train;
 import sample.API.Car.CarParser;
 
@@ -70,7 +71,7 @@ public class CarsAndSeatsSceneController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText(text + type + "!\n\n\nОбновите данные на странице!");
+        alert.setContentText(text + " " + type + "!\n\n\nОбновите данные на странице!");
 
         alert.showAndWait();
     }
@@ -158,7 +159,7 @@ public class CarsAndSeatsSceneController {
         Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
         if (selectedSeat != null) {
             boolean okClicked = mainApp.showSeatEditDialog(selectedSeat);
-            if (okClicked){
+            if (okClicked) {
                 if (SeatPut.editSeat(selectedSeat)) {
                     showInfoPopup("Данные места", "изменены");
                     setData();
@@ -172,16 +173,29 @@ public class CarsAndSeatsSceneController {
     }
 
     public void deleteSeat() throws IOException {
-        Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
-        if (selectedSeat != null) {
-            if (SeatDelete.deleteSeat(selectedSeat.getId())) {
-                showInfoPopup("Место", "удалено");
-                setData();
-            } else {
-                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+        ObservableList<Seat> list = seatsListView.getSelectionModel().getSelectedItems();
+        if (list.size() != 0) {
+            for (Seat selectedSeat:list){
+                if (SeatDelete.deleteSeat(selectedSeat.getId())) {
+                    showInfoPopup(selectedSeat.toString(), "удалено");
+                    setData();
+                } else {
+                    showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+                }
             }
         } else {
             showWarningPopup("No selection", "No seat selected", "Пожалуйста, выберите место для удаления!");
         }
+//        Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
+//        if (selectedSeat != null) {
+//            if (SeatDelete.deleteSeat(selectedSeat.getId())) {
+//                showInfoPopup("Место", "удалено");
+//                setData();
+//            } else {
+//                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
+//            }
+//        } else {
+//            showWarningPopup("No selection", "No seat selected", "Пожалуйста, выберите место для удаления!");
+//        }
     }
 }

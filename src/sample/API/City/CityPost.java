@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 public class CityPost {
 
-    public static Integer addNewCity(String name) throws IOException {
+    public static boolean addNewCity(String name) throws IOException {
         final String url = "http://localhost:8080/cities";
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
@@ -23,9 +23,6 @@ public class CityPost {
         httpClient.setDoOutput(true);
         httpClient.getOutputStream().write(postDataBytes);
 
-//        Reader in = new BufferedReader(new InputStreamReader(httpClient.getInputStream(), StandardCharsets.UTF_8));
-        return httpClient.getResponseCode();
-//        for (int c; (c = in.read()) >= 0;)
-//            System.out.print((char)c);
+        return httpClient.getResponseCode() == 200;
     }
 }

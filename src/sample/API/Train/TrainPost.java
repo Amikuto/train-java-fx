@@ -1,6 +1,7 @@
 package sample.API.Train;
 
 import org.json.JSONObject;
+import sample.model.Train;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,19 +15,19 @@ import java.time.LocalTime;
 
 public class TrainPost {
 
-    public static int addNewTrain(LocalDate dateDep, LocalDate dateArr, LocalTime timeDep, LocalTime timeArr, String depSt, String arrSt, String depCity, String arrCity) throws IOException {
+    public static boolean addNewTrain(Train train) throws IOException {
         final String url = "http://localhost:8080/trains";
         final HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
 
         JSONObject json = new JSONObject();
-        json.put("dateDep", dateDep);
-        json.put("dateArr", dateArr);
-        json.put("timeDep", timeDep);
-        json.put("timeArr", timeArr);
-        json.put("depSt", depSt);
-        json.put("arrSt", arrSt);
-        json.put("arrivalCity", arrCity);
-        json.put("departingCity", depCity);
+        json.put("dateDep", train.getDateDep());
+        json.put("dateArr", train.getDateArr());
+        json.put("timeDep", train.getTimeDep());
+        json.put("timeArr", train.getTimeArr());
+        json.put("depSt", train.getDepSt());
+        json.put("arrSt", train.getArrSt());
+        json.put("arrivalCity", train.getArrivalCity());
+        json.put("departingCity", train.getDepartingCity());
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("POST");
@@ -35,13 +36,6 @@ public class TrainPost {
         httpClient.setDoOutput(true);
         httpClient.getOutputStream().write(postDataBytes);
 
-        Reader in = new BufferedReader(new InputStreamReader(httpClient.getInputStream(), StandardCharsets.UTF_8));
-
-//        System.out.println(httpClient.getResponseCode());
-
-        return httpClient.getResponseCode();
-
-//        for (int c; (c = in.read()) >= 0;)
-//            System.out.print((char)c);
+        return httpClient.getResponseCode() == 200;
     }
 }
