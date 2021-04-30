@@ -5,17 +5,17 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="sample.controller.RootLayoutController" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.RootLayoutController">
    <top>
      <MenuBar prefHeight="27.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-       <Menu mnemonicParsing="false" onAction="#closeProgram" text="File">
+       <Menu mnemonicParsing="false" onAction="#closeProgram" text="Program">
          <MenuItem mnemonicParsing="false" text="Close" />
        </Menu>
        <Menu disable="true" mnemonicParsing="false" text="Edit" visible="false">
          <MenuItem mnemonicParsing="false" text="Delete" />
        </Menu>
        <Menu mnemonicParsing="false" text="Help">
-         <MenuItem mnemonicParsing="false" text="About" onAction="#showAuthorInfo">
+         <MenuItem mnemonicParsing="false" onAction="#showAuthorInfo" text="About">
          </MenuItem>
        </Menu>
      </MenuBar>
