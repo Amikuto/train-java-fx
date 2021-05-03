@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -54,7 +55,12 @@
             </TextField>
          </children>
       </GridPane>
-      <Button fx:id="exitButton" layoutX="527.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleCancel" text="Выход" />
-      <Button fx:id="loginButton" layoutX="462.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="51.0" text="Вход" />
+      <ButtonBar layoutX="325.0" layoutY="361.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0">
+         <buttons>
+            <Button mnemonicParsing="false" onAction="#showRegistrationPage" text="Открыть окно регистрации" />
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="51.0" text="Вход" />
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleCancel" text="Выход" />
+         </buttons>
+      </ButtonBar>
    </children>
 </AnchorPane>

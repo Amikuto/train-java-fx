@@ -102,6 +102,7 @@
                               </AnchorPane>
                           </items>
                         </SplitPane>
+                        <Button mnemonicParsing="false" onAction="#updateData" text="Обновить данные" AnchorPane.leftAnchor="10.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -152,12 +153,13 @@
                                     </TableView>
                                     <ButtonBar layoutX="799.0" layoutY="692.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="38.0">
                                        <buttons>
+                                          <Button fx:id="carsEditButton" mnemonicParsing="false" onAction="#showCarsAndSeatsScene" text="Настройка вагонов" />
+                                          <Button mnemonicParsing="false" onAction="#openTrainDataPage" text="Данные по поезду" />
                                           <Button fx:id="addTrainButton" mnemonicParsing="false" onAction="#addNewTrain" prefWidth="107.0" text="Добавить" />
                                           <Button fx:id="editButton1" mnemonicParsing="false" onAction="#editTrain" text="Редактировать" />
                                           <Button mnemonicParsing="false" onAction="#deleteTrain" text="Удалить" />
                                        </buttons>
                                     </ButtonBar>
-                                    <Button fx:id="carsEditButton" layoutX="677.0" layoutY="692.0" mnemonicParsing="false" onAction="#showCarsAndSeatsScene" text="Настройка вагонов" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="399.0" />
                                  </children>
                               </AnchorPane>
                           </items>

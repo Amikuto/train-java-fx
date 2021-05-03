@@ -16,6 +16,7 @@ import sample.controller.editors.TrainEditController;
 import sample.model.Car;
 import sample.model.Seat;
 import sample.model.Train;
+import sample.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ public class Main extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private User currentUser;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -42,9 +44,9 @@ public class Main extends Application {
 
         showRootLayout();
 
-//        if (this.showLoginPage()){
-        showWelcomeScene();
-//        }
+        if (this.showLoginPage()){
+            showWelcomeScene();
+        }
     }
 
     public void showWelcomeScene() throws IOException {
@@ -93,6 +95,8 @@ public class Main extends Application {
         dialogStage.setScene(scene);
 
         RegistrationPageController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.setDialogStage(dialogStage);
         dialogStage.showAndWait();
     }
 
@@ -178,6 +182,25 @@ public class Main extends Application {
         return controller.isOkClicked();
     }
 
+    public void showTrainData(Train train) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/views/TrainDataPage.fxml"));
+        AnchorPane page = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Статистические данные о поезде");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        TrainDataPageController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setTextArea(train.getId());
+
+        dialogStage.showAndWait();
+    }
+
     public boolean showLoginPage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/LoginPage.fxml"));
@@ -220,5 +243,13 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

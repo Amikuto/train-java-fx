@@ -1,13 +1,16 @@
 package sample.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.API.User.UserParser;
 import sample.Main;
 import sample.API.User.UserGet;
+import sample.model.User;
 
 import java.io.IOException;
 
@@ -16,6 +19,7 @@ public class LoginPageController {
     private Main mainApp;
     private Stage dialogStage;
     private boolean CHECKED = false;
+    UserParser userParser = new UserParser();
 
     @FXML
     public TextField loginField;
@@ -51,17 +55,26 @@ public class LoginPageController {
     private boolean handleOk() throws IOException {
         if (isInputValid()) {
             String login = loginField.getText();
-            Integer password = Integer.parseInt(passwordField.getText());
+            try {
+                Integer password = Integer.parseInt(passwordField.getText());
 
-//            mainApp.addToTest(login, password);
+                if (UserGet.checkPassword(login, password)){
+                    CHECKED = true;
+                    User user = userParser.getUserByLogin(login);
+                    mainApp.setCurrentUser(user);
+                    dialogStage.close();
+                    return true;
+                } else {
+                    String errorMessage = "";
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.initOwner(dialogStage);
+                    alert.setTitle("Ошибка при вводе данных");
+                    alert.setHeaderText("Пожалуйста, введите корректный пароль");
+                    alert.setContentText(errorMessage);
 
-//            mainApp.printTestList();
-
-            if (UserGet.checkPassword(login, password)){
-                CHECKED = true;
-                dialogStage.close();
-                return true;
-            } else {
+                    alert.showAndWait();
+                }
+            } catch (NumberFormatException e) {
                 String errorMessage = "";
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initOwner(dialogStage);
@@ -77,6 +90,14 @@ public class LoginPageController {
 
     @FXML
     private void handleCancel() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(dialogStage);
+        alert.setTitle("Ошибка при входе в учетную запись");
+        alert.setHeaderText("Пожалуйста, войдите в систему");
+        alert.setContentText("Данные не будут загружены, пока вы не вошли в систему!");
+
+        alert.showAndWait();
+        CHECKED = false;
         dialogStage.close();
     }
 
@@ -105,12 +126,7 @@ public class LoginPageController {
         }
     }
 
-//    public void login() {
-//        String login = loginField.getText();
-//        String password = passwordField.getText();
-//    }
-//
-//    public void exit() {
-////        System.out.println(passwordField.getText());
-//    }
+    public void showRegistrationPage() throws IOException {
+        mainApp.showRegistrationPage();
+    }
 }

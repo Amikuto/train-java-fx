@@ -2,6 +2,7 @@ package sample.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import sample.Main;
@@ -20,8 +21,6 @@ import sample.API.Train.TrainPut;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Optional;
 
 public class StationsAndTrainsSceneController {
@@ -92,7 +91,7 @@ public class StationsAndTrainsSceneController {
         alert.showAndWait();
     }
 
-    private void refreshData() {
+    public void refreshData() {
         try {
             cityData.clear();
             cityData.addAll(cityParser.getAllCities());
@@ -301,6 +300,19 @@ public class StationsAndTrainsSceneController {
             mainApp.showCarsAndSeatsScene(selectedTrain);
         } else {
             showWarningPopup("No train selected", "No selection", "Пожалуйста, выберите поезд для редактирования!");
+        }
+    }
+
+    public void updateData() {
+        refreshData();
+    }
+
+    public void openTrainDataPage() throws IOException {
+        Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
+        if (selectedTrain != null) {
+            mainApp.showTrainData(selectedTrain);
+        } else {
+            showWarningPopup("No train selected", "No selection", "Пожалуйста, выберите поезд для показа данных!");
         }
     }
 }

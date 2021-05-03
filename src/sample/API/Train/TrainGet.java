@@ -17,7 +17,7 @@ public class TrainGet {
     }
 
     public String trainGetById(Long id) throws IOException {
-        String url = "http://localhost:8080/trains/"+id;
+        String url = "http://localhost:8080/trains/" + id;
         return sendGetRequest(url);
     }
 
@@ -27,8 +27,52 @@ public class TrainGet {
     }
 
     public String trainGetByDepAndArrStationAndDepDate(String depCity, String arrCity, String depDate) throws IOException {
-        String url = "http://localhost:8080/trains/" + URLEncoder.encode(depCity, StandardCharsets.UTF_8) + "/" + URLEncoder.encode(arrCity, StandardCharsets.UTF_8) + "/" + depDate;
+        String url = "http://localhost:8080/trains/search/" + URLEncoder.encode(depCity, StandardCharsets.UTF_8) + "/" + URLEncoder.encode(arrCity, StandardCharsets.UTF_8) + "/" + depDate;
         return sendGetRequest(url);
+    }
+
+    public String trainGetSoldTicketData(Long id) throws IOException {
+        String url = "http://localhost:8080/trains/data/train-sold-tickets-data/" + id;
+        HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
+        httpClient.setRequestMethod("GET");
+
+        InputStream is = httpClient.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        return rd.readLine();
+    }
+
+    public String trainGetNotSoldTicketData(Long id) throws IOException {
+        String url = "http://localhost:8080/trains/data/train-notsold-tickets-data/" + id;
+        HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
+        httpClient.setRequestMethod("GET");
+
+        InputStream is = httpClient.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        return rd.readLine();
+    }
+
+    public String trainGetAllTicketData(Long id) throws IOException {
+        String url = "http://localhost:8080/trains/data/train-all-tickets-data/" + id;
+        HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
+        httpClient.setRequestMethod("GET");
+
+        InputStream is = httpClient.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        return rd.readLine();
+    }
+
+    public String trainGetCountYearsStatistic(Integer date) throws IOException {
+        String url = "http://localhost:8080/trains/data/year-statistic-count/" + date;
+        HttpURLConnection httpClient = (HttpURLConnection) new URL(url).openConnection();
+        httpClient.setRequestMethod("GET");
+
+        InputStream is = httpClient.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        return rd.readLine();
     }
 
     private String sendGetRequest(String url) throws IOException {
