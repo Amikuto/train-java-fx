@@ -23,6 +23,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+/**
+ * Контроллер сцены городов, станций и поездов
+ * @author damir
+ */
 public class StationsAndTrainsSceneController {
 
     private final ObservableList<City> cityData = FXCollections.observableArrayList();
@@ -66,6 +70,9 @@ public class StationsAndTrainsSceneController {
 
     private Main mainApp;
 
+    /**
+     * Конструктор класса
+     */
     public StationsAndTrainsSceneController(){}
 
     public void setMainApp(Main mainApp) {
@@ -74,6 +81,12 @@ public class StationsAndTrainsSceneController {
         refreshData();
     }
 
+    /**
+     * Метод вывода окна ошибок
+     * @param title параметр заглавия (названия)
+     * @param header параметр заголовка
+     * @param content параметр сообщения
+     */
     public static void showWarningPopup(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -82,6 +95,11 @@ public class StationsAndTrainsSceneController {
         alert.showAndWait();
     }
 
+    /**
+     * Метод вывода информационного окна
+     * @param text параметр сообщения
+     * @param type параметр типа сообщения
+     */
     public static void showInfoPopup(String text, String type) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
@@ -91,6 +109,9 @@ public class StationsAndTrainsSceneController {
         alert.showAndWait();
     }
 
+    /**
+     * Функция обновления данных о городах с сервера
+     */
     public void refreshData() {
         try {
             cityData.clear();
@@ -113,6 +134,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Функция показа данных о городе
+     * @param city класс города, о котором показываются данные
+     */
     public void showCitiesData(City city) {
         if (city != null) {
             stationsListView.getItems().clear();
@@ -125,6 +150,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Инициализация класса
+     * Устанавливается текст в поле города, множественный выбор для станций, формат даты
+     */
     @FXML
     private void initialize(){
         cityTextField.setText("Введите название города для добавления");
@@ -140,6 +169,10 @@ public class StationsAndTrainsSceneController {
         );
     }
 
+    /**
+     * Метод добавления нового города на сервер
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void addNewCity() throws IOException {
         String cityName = cityTextField.getText();
         if (cityName.length() != 0){
@@ -158,6 +191,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод удаления города с сервера
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void deleteCity() throws IOException {
         City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
         if (selectedCity != null) {
@@ -172,6 +209,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод добавления новой станции на сервер
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void addNewStation() throws IOException {
         City selectedCity = cityTableView.getSelectionModel().getSelectedItem();
         if (selectedCity != null) {
@@ -190,6 +231,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод редактирования станции на сервере
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void editStation() throws IOException {
         Station station = stationsListView.getSelectionModel().getSelectedItem();
         if (station != null) {
@@ -204,6 +249,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод удаления станции с сервера
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void deleteStation() throws IOException {
         ObservableList<Station> list = stationsListView.getSelectionModel().getSelectedItems();
         if (list.size() != 0) {
@@ -220,6 +269,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод добавления нового поезда на сервер
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void addNewTrain() throws IOException {
         LocalTime currTime = LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute());
         Train train = new Train(0L, trainCityDepNumberField.getText(), trainCityArrNumberField.getText(), "", "", currTime, currTime, LocalDate.now(), LocalDate.now());
@@ -227,13 +280,16 @@ public class StationsAndTrainsSceneController {
         if (okClicked) {
             if (TrainPost.addNewTrain(train)) {
                 showInfoPopup("Поезд", "добвален");
-                searchTrains();
             } else {
                 showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
             }
         }
     }
 
+    /**
+     * Метод редактирования поезда на сервере
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void editTrain() throws IOException {
         Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
         if (selectedTrain != null) {
@@ -252,6 +308,10 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод удаления поезда с сервера
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void deleteTrain() throws IOException {
         Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
         if (selectedTrain != null) {
@@ -266,15 +326,19 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод получения данных о поездах с сервера
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void searchTrains() throws IOException {
         trainsData.clear();
 
-//        String depCity = trainCityDepNumberField.getText();
-//        String arrCity = trainCityArrNumberField.getText();
-//        String depDate = trainDateField.getValue().toString();
-        String depCity = "Москва";
-        String arrCity = "Казань";
-        String depDate = "2021-03-18";
+        String depCity = trainCityDepNumberField.getText();
+        String arrCity = trainCityArrNumberField.getText();
+        String depDate = trainDateField.getValue().toString();
+//        String depCity = "Москва";
+//        String arrCity = "Казань";
+//        String depDate = "2021-03-18";
 
         trainsData.addAll(trainParser.getListOfTrains(depCity, arrCity, depDate));
         trainTableView.setItems(trainsData);
@@ -294,6 +358,10 @@ public class StationsAndTrainsSceneController {
         trainDateArrColumn.setCellValueFactory(cellData -> cellData.getValue().dateArrProperty());
     }
 
+    /**
+     * Метод показа сцены о вагонах и мест выбранного поезда
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void showCarsAndSeatsScene() throws IOException {
         Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
         if (selectedTrain != null) {
@@ -303,10 +371,17 @@ public class StationsAndTrainsSceneController {
         }
     }
 
+    /**
+     * Метод обновленя данных
+     */
     public void updateData() {
         refreshData();
     }
 
+    /**
+     * Функция показа статистической информации о поезде
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void openTrainDataPage() throws IOException {
         Train selectedTrain = trainTableView.getSelectionModel().getSelectedItem();
         if (selectedTrain != null) {

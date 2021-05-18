@@ -7,6 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для городов для отправки POST зароса на сервер
+ * @author damir
+ */
 public class CityPost {
 
     public static boolean addNewCity(String name) throws IOException {

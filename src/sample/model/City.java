@@ -5,13 +5,22 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
+/**
+ * Класс-модель городов
+ * @author damir
+ */
 public class City {
 
     private final LongProperty id;
-
     private final StringProperty name;
     private final ListProperty<Station> stations;
 
+    /**
+     * Конструктор класса город
+     * @param id параметр id
+     * @param name параметр имени города
+     * @param stations список станций в городе
+     */
     public City(Long id, String name, List<Station> stations) {
         this.id = new SimpleLongProperty(id);
         this.name = new SimpleStringProperty(name);

@@ -9,6 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для пользователей для отправки POST зароса на сервер
+ * @author damir
+ */
 public class UserPost {
 
     public static boolean addNewUser(String fullName, String login, String email, String password) throws IOException {

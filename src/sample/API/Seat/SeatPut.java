@@ -8,6 +8,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для мест для отправки PUT зароса на сервер
+ * @author damir
+ */
 public class SeatPut {
 
     public static boolean editSeat(Seat seat) throws IOException {

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Класс API для городов для отправки DELETE зароса на сервер
+ * @author damir
+ */
 public class CityDelete {
 
     public static boolean deleteCity(Long cityId) throws IOException {

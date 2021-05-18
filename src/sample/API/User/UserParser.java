@@ -5,6 +5,10 @@ import sample.model.User;
 
 import java.io.IOException;
 
+/**
+ * Класс API пользователей для парсинга информации получаемой с сервера
+ * @author damir
+ */
 public class UserParser {
 
     private String json;

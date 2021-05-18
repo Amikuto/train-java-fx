@@ -7,6 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для пользователей для отправки GET зароса на сервер
+ * @author damir
+ */
 public class UserGet {
 
     private String sendGetRequest(String url) throws IOException {

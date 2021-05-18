@@ -11,6 +11,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для вагонов для отправки PUT зароса на сервер
+ * @author damir
+ */
 public class CarPut {
 
     public static boolean editCar(Car car) throws IOException {

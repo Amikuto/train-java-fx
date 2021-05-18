@@ -10,6 +10,10 @@ import sample.model.Seat;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Класс API вагонов для парсинга информации получаемой с сервера
+ * @author damir
+ */
 public class CarParser {
     private String json;
     private final CarGet carGet = new CarGet();

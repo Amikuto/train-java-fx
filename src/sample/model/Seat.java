@@ -2,15 +2,26 @@ package sample.model;
 
 import javafx.beans.property.*;
 
+/**
+ * Класс-модель мест
+ * @author damir
+ */
 public class Seat {
 
     private final LongProperty id;
-
     private final IntegerProperty number;
     private final StringProperty seatType;
     private final IntegerProperty cost;
     private final LongProperty carId;
 
+    /**
+     * Конструктор класса места
+     * @param id параметр id
+     * @param number параметр номер места в вагоне
+     * @param type параметр типа места
+     * @param cost параметр стоимости места
+     * @param carId параметр id вагона
+     */
     public Seat(Long id, Integer number, String type, Integer cost, Long carId) {
         this.id = new SimpleLongProperty(id);
         this.number = new SimpleIntegerProperty(number);

@@ -1,8 +1,7 @@
 <component name="libraryTable">
-  <library name="json-20201115" type="repository">
-    <properties maven-id="org.json:json:20201115" />
+  <library name="json-20201115">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20201115/json-20201115.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../JavaModules/json-20201115.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

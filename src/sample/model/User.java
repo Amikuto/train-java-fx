@@ -5,15 +5,26 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
+/**
+ * Класс-модель пользователей
+ * @author damir
+ */
 public class User {
 
     private final LongProperty id;
-
     private final StringProperty fullName;
     private final StringProperty login;
     private final StringProperty email;
     private final ListProperty<Ticket> tickets;
 
+    /**
+     * Конструктор класса пользователь
+     * @param id параметр id
+     * @param fullName параметр польного имени
+     * @param login параметр логина
+     * @param email параметр почты
+     * @param tickets список билетов, которые приобрел пользователь
+     */
     public User(Long id, String fullName, String login, String email, List<Ticket> tickets) {
         this.id = new SimpleLongProperty(id);
         this.fullName = new SimpleStringProperty(fullName);

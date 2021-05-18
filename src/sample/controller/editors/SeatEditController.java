@@ -7,6 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Seat;
 
+/**
+ * Контроллер страницы редактирования мест
+ * @author damir
+ */
 public class SeatEditController {
 
     private Seat seat;
@@ -18,17 +22,32 @@ public class SeatEditController {
     public TextField seatTypeTextField;
     public TextField carIdTextField;
 
+    /**
+     * Инициализация класса
+     */
     @FXML
     private void initialize(){}
 
+    /**
+     * Установка сцены
+     * @param dialogStage сцена
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
+    /**
+     * Функция проверки нажатя кнопки ОК
+     * @return true если кнопка нажата или false если не нажата
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Установка класса Seat {@link Seat} для его добавления\редактирования
+     * @param seat параметры места
+     */
     public void setSeat(Seat seat) {
         this.seat = seat;
         numberTextField.setText(seat.getNumber().toString());
@@ -37,16 +56,24 @@ public class SeatEditController {
         carIdTextField.setText(seat.getCarId().toString());
     }
 
+    /**
+     * Функция обработчик нажатия кнопка закрытия окна. Закрывает окно
+     */
     public void handleExitButton() {
         this.dialogStage.close();
     }
 
+    /**
+     * Функция обработчик нажатия кнопки ОК.
+     * Проверяет правильность введенных данных, меняет статус нажатия кнопки ОК,
+     * закрывает окно
+     */
     public void handleOk() {
         if (isInputValid()) {
             seat.setId(seat.getId());
             seat.setNumber(Integer.parseInt(numberTextField.getText()));
             seat.setCost(Integer.parseInt(costTextField.getText()));
-            seat.setSeatType(seatTypeTextField.getText());
+            seat.setSeatType(seatTypeTextField.getText().toLowerCase());
             seat.setCarId(Long.parseLong(carIdTextField.getText()));
 
             okClicked = true;
@@ -54,6 +81,11 @@ public class SeatEditController {
         }
     }
 
+    /**
+     * Функция валидации введенных данных
+     * @return возвращает true если данные корректы
+     * и false с всплывающем окном, если они не верны.
+     */
     private boolean isInputValid() {
         String errorMessage = "";
 

@@ -10,6 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для станций для отправки PUT зароса на сервер
+ * @author damir
+ */
 public class StationPut {
 
     public static boolean editStation(Long id, String name) throws IOException {
@@ -18,7 +22,6 @@ public class StationPut {
 
         JSONObject json = new JSONObject();
         json.put("name", name);
-//        json.put("city", city);
         byte[] postDataBytes = json.toString().getBytes(StandardCharsets.UTF_8);
 
         httpClient.setRequestMethod("PUT");

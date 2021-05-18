@@ -7,12 +7,15 @@ import sample.model.Station;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Класс API станций для парсинга информации получаемой с сервера
+ * @author damir
+ */
 public class StationParser {
 
     private String json;
     private final StationGet stationGet = new StationGet();
     public ArrayList<Station> stationArrayList = new ArrayList<>();
-//    public HashMap<String, List<String>> cities = new HashMap<>();
 
     public void parseFunc(ArrayList<Station> stationArrayList, JSONObject obj) {
 

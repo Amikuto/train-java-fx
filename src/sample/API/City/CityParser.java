@@ -10,6 +10,10 @@ import sample.model.Station;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Класс API городов для парсинга информации получаемой с сервера
+ * @author damir
+ */
 public class CityParser {
 
     private String json;

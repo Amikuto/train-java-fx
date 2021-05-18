@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Класс API для мест для отправки GET зароса на сервер
+ * @author damir
+ */
 public class SeatGet {
 
     private String sendGetRequest(String url) throws IOException {

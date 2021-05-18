@@ -10,6 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для вагонов для отправки PUT зароса на сервер
+ * @author damir
+ */
 public class CityPut {
 
     public static void editCity(Long id, String name) throws IOException {
@@ -27,8 +31,5 @@ public class CityPut {
         httpClient.getOutputStream().write(postDataBytes);
 
         Reader in = new BufferedReader(new InputStreamReader(httpClient.getInputStream(), StandardCharsets.UTF_8));
-
-//        for (int c; (c = in.read()) >= 0;)
-//            System.out.print((char)c);
     }
 }

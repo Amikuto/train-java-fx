@@ -9,15 +9,27 @@ import sample.API.Train.TrainParser;
 
 import java.io.IOException;
 
+/**
+ * Контроллер страницы статистики поезда
+ * @author damir
+ */
 public class TrainDataPageController {
     private Stage dialogStage;
 
     public Text textArea;
 
+    /**
+     * Инициализация класса
+     */
     @FXML
     private void initialize() {
     }
 
+    /**
+     * Установка информации в поле данных
+     * @param trainId параметр id поезда
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void setTextArea(Long trainId) throws IOException {
         TrainGet trainGet = new TrainGet();
         String soldTickets = trainGet.trainGetSoldTicketData(trainId);
@@ -31,12 +43,18 @@ public class TrainDataPageController {
         textArea.setText(out);
     }
 
+    /**
+     * Установка сцены
+     * @param dialogStage сцена
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
-
-    public void handleCloseButton(ActionEvent actionEvent) {
+    /**
+     * Функция обработчик нажатия кнопка закрытия окна. Закрывает окно
+     */
+    public void handleCloseButton() {
         dialogStage.close();
     }
 }

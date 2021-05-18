@@ -4,20 +4,31 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс-модель вагонов
+ * @author damir
+ */
 @Data
 public class Car {
 
     private final LongProperty id;
-
     private final IntegerProperty number;
     private final StringProperty carClass;
     private final StringProperty type;
     private final LongProperty trainId;
     private final ListProperty<Seat> seats;
 
+    /**
+     * Конструктор класса вагон
+     * @param id параметр id
+     * @param number параметр номер вагона в поезде
+     * @param carClass параметр класс вагона
+     * @param type параметр тип вагона
+     * @param trainId параметр id поезда
+     * @param seats параметр места в вагоне
+     */
     public Car(Long id, Integer number, String carClass, String type, Long trainId, List<Seat> seats) {
         this.id = new SimpleLongProperty(id);
         this.number = new SimpleIntegerProperty(number);

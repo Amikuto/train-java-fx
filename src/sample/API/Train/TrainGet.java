@@ -9,6 +9,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для поездов для отправки GET зароса на сервер
+ * @author damir
+ */
 public class TrainGet {
 
     public String trainGetAll() throws IOException {

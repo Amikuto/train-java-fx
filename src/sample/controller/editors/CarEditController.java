@@ -7,6 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Car;
 
+/**
+ * Контроллер страницы редактирования вагонов
+ * @author damir
+ */
 public class CarEditController {
 
     private Car car;
@@ -18,34 +22,57 @@ public class CarEditController {
     public TextField trainId;
     public TextField carClass;
 
+    /**
+     * Инициализация класса
+     */
     @FXML
     private void initialize(){}
 
+    /**
+     * Установка сцены
+     * @param dialogStage сцена
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
+    /**
+     * Функция проверки нажатя кнопки ОК
+     * @return true если кнопка нажата или false если не нажата
+     */
     public boolean isOkClicked(){
         return okClicked;
     }
 
+    /**
+     * Функция обработчик нажатия кнопка закрытия окна. Закрывает окно
+     */
     public void handleExitButton() {
         dialogStage.close();
     }
 
+    /**
+     * Установка класса Car {@link Car} для его добавления\редактирования
+     * @param car параметры вагона
+     */
     public void setCar(Car car) {
         this.car = car;
         number.setText(car.getNumber().toString());
-        type.setText(car.getType());
+        type.setText(car.getType().toUpperCase());
         trainId.setText(car.getTrainId().toString());
         carClass.setText(car.getCarClass());
     }
 
+    /**
+     * Функция обработчик нажатия кнопки ОК.
+     * Проверяет правильность введенных данных, меняет статус нажатия кнопки ОК,
+     * закрывает окно
+     */
     public void handleOkButton() {
         if (isInputValid()) {
             car.setId(car.getId());
             car.setNumber(Integer.parseInt(number.getText()));
-            car.setType(type.getText());
+            car.setType(type.getText().toLowerCase().toLowerCase());
             car.setTrainId(Integer.parseInt(trainId.getText()));
             car.setCarClass(carClass.getText());
 
@@ -54,6 +81,11 @@ public class CarEditController {
         }
     }
 
+    /**
+     * Функция валидации введенных данных
+     * @return возвращает true если данные корректы
+     * и false с всплывающем окном, если они не верны.
+     */
     private boolean isInputValid() {
         String errorMessage = "";
 

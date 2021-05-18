@@ -8,6 +8,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для станций для отправки POST зароса на сервер
+ * @author damir
+ */
 public class StationPost {
 
     public static boolean addNewStation(String name, String city) throws IOException {

@@ -5,12 +5,22 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Класс-модель станций
+ * @author damir
+ */
 public class Station {
 
     private final LongProperty id;
     private final StringProperty cityName;
     private final StringProperty stationName;
 
+    /**
+     * Конструктор класса станция
+     * @param id параметр id
+     * @param cityName параметр названия города, в котором расположена станция
+     * @param stationName параметр названия станции
+     */
     public Station(Long id, String cityName, String stationName) {
         this.id = new SimpleLongProperty(id);
         this.cityName = new SimpleStringProperty(cityName);

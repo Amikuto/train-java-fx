@@ -6,6 +6,10 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Класс-модель поездов
+ * @author damir
+ */
 @Data
 public class Train {
 
@@ -23,33 +27,18 @@ public class Train {
     private final ObjectProperty<LocalDate> dateDep;
     private final ObjectProperty<LocalDate> dateArr;
 
-
-//    private final StringProperty depSt;
-//    private final StringProperty arrSt;
-//
-//    private final ListProperty<Car> cars;
-//    private final ListProperty<Ticket> tickets;
-
-//    public Train(String id, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr, String depSt, String arrSt, ObservableList<Car> cars, ObservableList<Ticket> tickets) {
-//        this.id = new SimpleStringProperty(id);
-//        this.timeDep = new SimpleObjectProperty<>(timeDep);
-//        this.timeArr = new SimpleObjectProperty<>(timeArr);
-//        this.dateDep = new SimpleObjectProperty<>(dateDep);
-//        this.dateArr = new SimpleObjectProperty<>(dateArr);
-////        this.depSt = new SimpleStringProperty(depSt);
-////        this.arrSt =  new SimpleStringProperty(arrSt);
-////        this.cars = new SimpleListProperty<>(cars);
-////        this.tickets = new SimpleListProperty<>(tickets);
-//    }
-
-//    public Train(String id, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr, StringProperty depSt, StringProperty arrSt) {
-//        this.id = new SimpleStringProperty(id);
-//        this.timeDep = new SimpleObjectProperty<>(timeDep);
-//        this.timeArr = new SimpleObjectProperty<>(timeArr);
-//        this.dateDep = new SimpleObjectProperty<>(dateDep);
-//        this.dateArr = new SimpleObjectProperty<>(dateArr);
-//    }
-
+    /**
+     * Конструктор класса поезд
+     * @param id параметр id
+     * @param departingCity параметр город отправления
+     * @param arrivalCity параметр город прибытия
+     * @param depSt параметр станция отправления
+     * @param arrSt параметр станция прибытия
+     * @param timeDep параметр время отправления
+     * @param timeArr параметр время прибытия
+     * @param dateDep параметр дата отправления
+     * @param dateArr параметр дата прибытия
+     */
     public Train(Long id, String departingCity, String arrivalCity, String depSt, String arrSt, LocalTime timeDep, LocalTime timeArr, LocalDate dateDep, LocalDate dateArr) {
         this.id = new SimpleLongProperty(id);
         this.timeDep = new SimpleObjectProperty<>(timeDep);

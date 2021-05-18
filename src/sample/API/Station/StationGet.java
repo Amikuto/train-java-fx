@@ -9,6 +9,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Класс API для станций для отправки GET зароса на сервер
+ * @author damir
+ */
 public class StationGet {
 
     private String sendGetRequest(String url) throws IOException {

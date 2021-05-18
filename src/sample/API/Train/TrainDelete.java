@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Класс API для поездов для отправки DELETE зароса на сервер
+ * @author damir
+ */
 public class TrainDelete {
 
     public static boolean deleteTrain(Long trainId) throws IOException {

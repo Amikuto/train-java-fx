@@ -13,6 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Класс API для поездов для отправки PUT зароса на сервер
+ * @author damir
+ */
 public class TrainPut {
 
     public static boolean editTrain(Train train) throws IOException {

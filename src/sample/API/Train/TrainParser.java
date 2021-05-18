@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * Класс API поездов для парсинга информации получаемой с сервера
+ * @author damir
+ */
 public class TrainParser {
 
     private String json;

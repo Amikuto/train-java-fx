@@ -12,17 +12,19 @@ import sample.API.Car.CarPut;
 import sample.API.Seat.SeatDelete;
 import sample.API.Seat.SeatPost;
 import sample.API.Seat.SeatPut;
-import sample.API.Train.TrainDelete;
-import sample.API.Train.TrainPost;
 import sample.Main;
 import sample.model.Car;
 import sample.model.Seat;
-import sample.model.Station;
 import sample.model.Train;
 import sample.API.Car.CarParser;
 
 import java.io.IOException;
 
+
+/**
+ * Контроллер сцены вагонов и мест
+ * @author damir
+ */
 public class CarsAndSeatsSceneController {
 
     private Main mainApp;
@@ -38,27 +40,53 @@ public class CarsAndSeatsSceneController {
 
     public ListView<Seat> seatsListView;
 
+    /**
+     * Конструктор класса
+     */
     public CarsAndSeatsSceneController(){}
 
+    /**
+     * Получение родительского Main класса для выполнения его функций или получения информации.
+     * Установка данных в таблицу вагонов
+     * @param mainApp параметр Main класса
+     */
     public void setMainApp(Main mainApp){
         this.mainApp = mainApp;
 
         carTableView.setItems(carsData);
     }
 
+    /**
+     * Установка сцены
+     * @param dialogStage сцена
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
+    /**
+     * Установка класса Train {@link Train} для его получения его данных
+     * @param train параметры вагона
+     */
     public void setTrain(Train train){
         this.train = train;
     }
 
+    /**
+     * Инициализация класса
+     * Устанавливается множественный выбор для мест
+     */
     @FXML
     private void initialize(){
         seatsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    /**
+     * Метод вывода окна ошибок
+     * @param title параметр заглавия (названия)
+     * @param header параметр заголовка
+     * @param content параметр сообщения
+     */
     public static void showWarningPopup(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -67,6 +95,11 @@ public class CarsAndSeatsSceneController {
         alert.showAndWait();
     }
 
+    /**
+     * Метод вывода информационного окна
+     * @param text параметр сообщения
+     * @param type параметр типа сообщения
+     */
     public static void showInfoPopup(String text, String type) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
@@ -76,6 +109,10 @@ public class CarsAndSeatsSceneController {
         alert.showAndWait();
     }
 
+    /**
+     * Метод показа информации о вагоне и его местах
+     * @param car класс вагона, откуда берется информация
+     */
     public void showCarsData(Car car) {
         if (car != null) {
             seatsListView.getItems().clear();
@@ -88,6 +125,10 @@ public class CarsAndSeatsSceneController {
         }
     }
 
+    /**
+     * Загрузка информации о вагонах
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void setData() throws IOException {
         carsData.clear();
         carsData.addAll(carParser.getListOfCars(train.getId()));
@@ -100,6 +141,10 @@ public class CarsAndSeatsSceneController {
         );
     }
 
+    /**
+     * Метод добавления нового вагона на сервер
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void addNewCar() throws IOException {
         Car car = new Car(0L, 0, "", "", train.getId(), null);
         boolean okClicked = mainApp.showCarEditDialog(car);
@@ -113,6 +158,10 @@ public class CarsAndSeatsSceneController {
         }
     }
 
+    /**
+     * Метод редактирования вагона на сервере
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void editCar() throws IOException {
         Car selectedCar = carTableView.getSelectionModel().getSelectedItem();
         if (selectedCar != null) {
@@ -128,6 +177,10 @@ public class CarsAndSeatsSceneController {
         }
     }
 
+    /**
+     * Метод удаления вагона с сервера
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void deleteCar() throws IOException {
         Car selectedCar = carTableView.getSelectionModel().getSelectedItem();
         if (selectedCar != null) {
@@ -142,6 +195,10 @@ public class CarsAndSeatsSceneController {
         }
     }
 
+    /**
+     * Метод добавления нового места на сервер
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void addNewSeat() throws IOException {
         Seat seat = new Seat(0L, 0, "", 0, carTableView.getSelectionModel().getSelectedItem().getId());
         boolean okClicked = mainApp.showSeatEditDialog(seat);
@@ -155,6 +212,10 @@ public class CarsAndSeatsSceneController {
         }
     }
 
+    /**
+     * Метод редактирования места на сервере
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void editSeat() throws IOException {
         Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
         if (selectedSeat != null) {
@@ -172,6 +233,10 @@ public class CarsAndSeatsSceneController {
         }
     }
 
+    /**
+     * Метод удаления места с сервера
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void deleteSeat() throws IOException {
         ObservableList<Seat> list = seatsListView.getSelectionModel().getSelectedItems();
         if (list.size() != 0) {
@@ -186,16 +251,5 @@ public class CarsAndSeatsSceneController {
         } else {
             showWarningPopup("No selection", "No seat selected", "Пожалуйста, выберите место для удаления!");
         }
-//        Seat selectedSeat = seatsListView.getSelectionModel().getSelectedItem();
-//        if (selectedSeat != null) {
-//            if (SeatDelete.deleteSeat(selectedSeat.getId())) {
-//                showInfoPopup("Место", "удалено");
-//                setData();
-//            } else {
-//                showWarningPopup("Ошибка", "Ответ сервера", "Ошибка в веденных данных (возможно, данный id уже занят, проверьте правильность введенных данных либо повторите попытку позже)");
-//            }
-//        } else {
-//            showWarningPopup("No selection", "No seat selected", "Пожалуйста, выберите место для удаления!");
-//        }
     }
 }

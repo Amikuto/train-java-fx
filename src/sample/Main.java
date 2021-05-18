@@ -13,21 +13,27 @@ import sample.controller.editors.CarEditController;
 import sample.controller.editors.SeatEditController;
 import sample.controller.editors.StationEditController;
 import sample.controller.editors.TrainEditController;
-import sample.model.Car;
-import sample.model.Seat;
-import sample.model.Train;
-import sample.model.User;
+import sample.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+/**
+ * Главный класс запуска приложения
+ * @author damir
+ */
 public class Main extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
     private User currentUser;
 
+    /**
+     * Функция инициализации приложения
+     * @param primaryStage главная сцена
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -39,6 +45,7 @@ public class Main extends Application {
 
         // Set logo on the top left
         InputStream iconStream = getClass().getResourceAsStream("/static/TLogo.jpeg");
+        assert iconStream != null;
         Image image = new Image(iconStream);
         this.primaryStage.getIcons().add(image);
 
@@ -49,6 +56,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Функция показа окна городов, станций и поездов
+     * @throws IOException ошибка запроса на сервер
+     */
     public void showWelcomeScene() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/StationsAndTrainsScene.fxml"));
@@ -61,6 +72,11 @@ public class Main extends Application {
         loader.setController(new RootLayoutController());
     }
 
+    /**
+     * Функция показа вагонов и мест
+     * @param train параметр поезда {@link Train}, по которому показать информацию
+     * @throws IOException ошибка запроса на сервер
+     */
     public void showCarsAndSeatsScene(Train train) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/CarsAndSeatsScene.fxml"));
@@ -82,6 +98,10 @@ public class Main extends Application {
         dialogStage.showAndWait();
     }
 
+    /**
+     * Функция показа окна регнистрации
+     * @throws IOException ошибка запроса на сервер
+     */
     public void showRegistrationPage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/RegistrationPage.fxml"));
@@ -100,6 +120,11 @@ public class Main extends Application {
         dialogStage.showAndWait();
     }
 
+    /**
+     * Функция показа окна редактирования станций {@link Station}
+     * @return возвращает нажатие кнопки ОК
+     * @throws IOException ошибка запроса на сервер
+     */
     public boolean showStationEditDialog() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditStationPage.fxml"));
@@ -119,6 +144,12 @@ public class Main extends Application {
         return controller.isOkClicked();
     }
 
+    /**
+     * Функция показа окна редактирования или добавления поездов
+     * @param train принимает поезд {@link Train} для редактирования
+     * @return возвращает нажатие кнопки ОК
+     * @throws IOException ошибка запроса на сервер
+     */
     public boolean showTrainEditDialog(Train train) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditTrainPage.fxml"));
@@ -132,8 +163,8 @@ public class Main extends Application {
         dialogStage.setScene(scene);
 
         TrainEditController controller = loader.getController();
-        controller.setMainApp(this);
-        controller.setStationsData();
+//        controller.setMainApp(this);
+//        controller.setStationsData();
         controller.setDialogStage(dialogStage);
         controller.setTrain(train);
 
@@ -142,6 +173,12 @@ public class Main extends Application {
         return controller.isOkClicked();
     }
 
+    /**
+     * Функция показа окна редактирования или добавления вагонов
+     * @param car принимает вагон {@link Car} для редактирования или добавления нового
+     * @return возвращает нажатие кнопки ОК
+     * @throws IOException ошибка запроса на сервер
+     */
     public boolean showCarEditDialog(Car car) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditCarPage.fxml"));
@@ -162,6 +199,12 @@ public class Main extends Application {
         return controller.isOkClicked();
     }
 
+    /**
+     * Функция показа окна редактирования или добавления мест
+     * @param seat принимает место {@link Seat} для редактирования или добавления нового
+     * @return возвращает нажатие кнопки ОК
+     * @throws IOException ошибка запроса на сервер
+     */
     public boolean showSeatEditDialog(Seat seat) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/EditSeatPage.fxml"));
@@ -182,6 +225,11 @@ public class Main extends Application {
         return controller.isOkClicked();
     }
 
+    /**
+     * Функция показа окна статистических данных о поездах
+     * @param train принимает поезд {@link Train} для отображения информации
+     * @throws IOException ошибка запроса на сервер
+     */
     public void showTrainData(Train train) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/TrainDataPage.fxml"));
@@ -201,6 +249,11 @@ public class Main extends Application {
         dialogStage.showAndWait();
     }
 
+    /**
+     * Функция показа окна регистрации пользователя {@link User}
+     * @return возвращает нажатие кнопки ОК
+     * @throws IOException ошибка запроса на сервер
+     */
     public boolean showLoginPage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/LoginPage.fxml"));
@@ -222,6 +275,10 @@ public class Main extends Application {
         return controller.isCHECKED();
     }
 
+    /**
+     * Функция показа верхней панели приложения
+     * @throws IOException ошибка запроса на сервер
+     */
     public void showRootLayout() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("/views/RootLayout.fxml"));
@@ -234,21 +291,38 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Функция для передачи дочерним классам главной сцены
+     * @return возвращает главную сцену {@link Main#primaryStage}
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * Конструктор
+     */
     public Main(){
     }
 
+    /**
+     * Функция запуска приложения
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Функция для задания текущего пользователя
+     * @param currentUser класс User {@link User}
+     */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Функция для получения текущего пользователя
+     */
     public User getCurrentUser() {
         return currentUser;
     }

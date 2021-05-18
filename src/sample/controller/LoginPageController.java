@@ -14,6 +14,10 @@ import sample.model.User;
 
 import java.io.IOException;
 
+/**
+ * Контроллер страницы входа пользователя в систему
+ * @author damir
+ */
 public class LoginPageController {
 
     private Main mainApp;
@@ -33,44 +37,68 @@ public class LoginPageController {
     @FXML
     public Button exitButton;
 
-//    LoginPageController() throws IOException {}
-
     @FXML
     private void initialize(){}
 
-
+    /**
+     * Получение родительского Main класса для выполнения его функций или получения информации.
+     * @param mainApp параметр Main класса
+     */
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
 
+    /**
+     * Установка сцены
+     * @param dialogStage сцена
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
+    /**
+     * Проверка нажатия кнопки вход
+     * @return true если кнопка нажата и данные проверены, false в противном случае
+     */
     public boolean isCHECKED(){
         return CHECKED;
     }
 
+    /**
+     * Функция обработчик нажатия кнопки вход.
+     * Проверяет правильность введенных данных, меняет статус нажатия кнопки ОК,
+     * проверяет пароль путем запроса на сервер, устанавливает текущего пользователя
+     * закрывает окно
+     */
     @FXML
     private boolean handleOk() throws IOException {
         if (isInputValid()) {
             String login = loginField.getText();
             try {
                 Integer password = Integer.parseInt(passwordField.getText());
+                try {
+                    if (UserGet.checkPassword(login, password)) {
+                        CHECKED = true;
+                        User user = userParser.getUserByLogin(login);
+                        mainApp.setCurrentUser(user);
+                        dialogStage.close();
+                        return true;
+                    } else {
+                        String errorMessage = "";
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.initOwner(dialogStage);
+                        alert.setTitle("Ошибка при вводе данных");
+                        alert.setHeaderText("Пожалуйста, введите корректный пароль");
+                        alert.setContentText(errorMessage);
 
-                if (UserGet.checkPassword(login, password)){
-                    CHECKED = true;
-                    User user = userParser.getUserByLogin(login);
-                    mainApp.setCurrentUser(user);
-                    dialogStage.close();
-                    return true;
-                } else {
-                    String errorMessage = "";
+                        alert.showAndWait();
+                    }
+                } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.initOwner(dialogStage);
                     alert.setTitle("Ошибка при вводе данных");
-                    alert.setHeaderText("Пожалуйста, введите корректный пароль");
-                    alert.setContentText(errorMessage);
+                    alert.setHeaderText("Пароль не совпадает либо пользователь с данным логином не зарегистрирован!");
+                    alert.setContentText("");
 
                     alert.showAndWait();
                 }
@@ -88,6 +116,10 @@ public class LoginPageController {
         return false;
     }
 
+    /**
+     * Функция обработчик нажатия кнопка закрытия окна.
+     * Закрывает окно и показывает ошибку, если пользователь так и не вошел в систему
+     */
     @FXML
     private void handleCancel() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -101,6 +133,11 @@ public class LoginPageController {
         dialogStage.close();
     }
 
+    /**
+     * Функция валидации введенных данных
+     * @return возвращает true если данные корректы
+     * и false с всплывающем окном, если они не верны.
+     */
     private boolean isInputValid() {
         String errorMessage = "";
 
@@ -126,6 +163,10 @@ public class LoginPageController {
         }
     }
 
+    /**
+     * Показывает окно регистрации
+     * @throws IOException ошибка получения данных с сервера
+     */
     public void showRegistrationPage() throws IOException {
         mainApp.showRegistrationPage();
     }
